@@ -18,7 +18,7 @@ public class InputStateDiagram {
 	    while (true) {
 	    	System.out.println("State"+stateDiagram.getStateDiagram().keySet()+": (# to end)");
 	    	String state = scanner.nextLine();
-	    	if (state.equals("#")) break;
+	    	if (state.equals("#") || state.trim().isEmpty()) break;
 	    	stateDiagram.addState(state);
 	    }
 	    
@@ -27,12 +27,12 @@ public class InputStateDiagram {
 		    	
 	    		System.out.printf("For State %s, Enter Action: (# to end)\n", state);
 		    	String action = scanner.nextLine();
-		    	if (action.equals("#")) break;
+		    	if (action.equals("#") || action.trim().isEmpty()) break;
 		    	
 		    	System.out.printf("For State %s, Action %s, Enter Transition State%s: (# to end)\n", 
 		    			state, action, stateDiagram.getStateDiagram().keySet());
 		    	String transition = scanner.nextLine();
-		    	if (transition.equals("#")) break;
+		    	if (transition.equals("#") || transition.trim().isEmpty()) break;
 		    	
 		    	if (!stateDiagram.getStateDiagram().keySet().contains(transition)) {
 		    		System.out.println("Error: State " + transition + " doesn't exist");
