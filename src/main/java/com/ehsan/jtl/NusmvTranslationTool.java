@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+import com.ehsan.jtl.model.Action;
+import com.ehsan.jtl.util.Constants;
 import com.ehsan.jtl.util.TextUtils;
 
 public class NusmvTranslationTool {
@@ -35,7 +37,7 @@ public class NusmvTranslationTool {
 		pw.printf("MODULE %s (arg1)\n", stateDiagram.getModule());
 
 		pw.printf("VAR state: {%s};\n",TextUtils.concatCollection(stateDiagram.getStateDiagram().keySet()));
-		pw.printf("IVAR action : {%s};\n",TextUtils.concatCollection(stateDiagram.getActionList()));
+		pw.printf("IVAR action : {%s};\n",TextUtils.concatCollection(stateDiagram.getActionListOfType(Constants.DEFAULT_AGENT_NAME)));
 
 		pw.printf("INIT (state = %s)\n", stateDiagram.getInitialState());
 
@@ -43,10 +45,12 @@ public class NusmvTranslationTool {
 
 		for (String state: stateDiagram.getStateDiagram().keySet()) {
 			if (stateDiagram.getStateDiagram().get(state) != null) {
-				for (String action: stateDiagram.getStateDiagram().get(state).keySet()) {
-					pw.printf("\t\t(state = %s & action = %s) : %s;\n", 
+				for (Action action: stateDiagram.getStateDiagram().get(state).keySet()) {
+					String actionTypePrefix = (action.getType().equals(Constants.DEFAULT_AGENT_NAME)?"":(action.getType()+"."));
+					pw.printf("\t\t(state = %s & action = %s%s) : %s;\n", 
 							state, 
-							action, 
+							actionTypePrefix,
+							action.getName(), 
 							stateDiagram.getStateDiagram().get(state).get(action));
 				}
 			}

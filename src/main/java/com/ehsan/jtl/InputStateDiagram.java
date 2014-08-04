@@ -2,6 +2,8 @@ package com.ehsan.jtl;
 
 import java.util.Scanner;
 
+import com.ehsan.jtl.util.Constants;
+
 public class InputStateDiagram {
 	public StateDiagram getStateDiagram() {
 		StateDiagram stateDiagram = new StateDiagram();
@@ -39,16 +41,22 @@ public class InputStateDiagram {
 		    	String action = scanner.nextLine();
 		    	if (action.equals("#") || action.trim().isEmpty()) break;
 		    	
+		    	System.out.printf("For State %s, Action %s, Enter Action Type(Default %s): \n", 
+		    			state, action, Constants.DEFAULT_AGENT_NAME);
+		    	String type = scanner.nextLine();
+		    	if (type.trim().isEmpty()) type = Constants.DEFAULT_AGENT_NAME;
+		    	
 		    	System.out.printf("For State %s, Action %s, Enter Transition State%s: (# to end)\n", 
 		    			state, action, stateDiagram.getStateDiagram().keySet());
 		    	String transition = scanner.nextLine();
 		    	if (transition.equals("#") || transition.trim().isEmpty()) break;
 		    	
+		    	
 		    	if (!stateDiagram.getStateDiagram().keySet().contains(transition)) {
 		    		System.out.println("Error: State " + transition + " doesn't exist");
 		    		continue;
 		    	}
-		    	stateDiagram.addTransitionState(state, action, transition);
+		    	stateDiagram.addTransitionState(state, action, type, transition);
 		    }
 	    }
 	    	    
