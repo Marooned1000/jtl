@@ -46,13 +46,13 @@ public class InputStateDiagram {
 		    	String type = scanner.nextLine();
 		    	if (type.trim().isEmpty()) type = Constants.DEFAULT_AGENT_NAME;
 		    	
-		    	System.out.printf("For State %s, Action %s, Enter Transition State%s: (# to end)\n", 
+		    	System.out.printf("For State %s, Action %s, Enter Transition State%s: \n", 
 		    			state, action, stateDiagram.getStateDiagram().keySet());
 		    	String transition = scanner.nextLine();
-		    	if (transition.equals("#") || transition.trim().isEmpty()) break;
 		    	
-		    	
-		    	if (!stateDiagram.getStateDiagram().keySet().contains(transition)) {
+		    	if (transition.equals("#") || 
+		    			transition.trim().isEmpty() ||
+		    			!stateDiagram.getStateDiagram().keySet().contains(transition)) {
 		    		System.out.println("Error: State " + transition + " doesn't exist");
 		    		continue;
 		    	}
