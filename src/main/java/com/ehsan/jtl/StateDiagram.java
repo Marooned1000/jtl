@@ -30,6 +30,13 @@ public class StateDiagram {
 		
 		transitionState.put(action, transition);
 	}
+	public Set<String> getActionList () {
+		Set<String> result = new HashSet<String>();
+		for (Map<String, String> transitionState: stateDiagram.values()) {
+			result.addAll(transitionState.keySet());
+		}
+		return result;
+	}
 
 	// Getters and Setters
 	public Map<String, Map<String, String>> getStateDiagram() {
