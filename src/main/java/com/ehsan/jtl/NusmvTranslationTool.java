@@ -33,6 +33,7 @@ public class NusmvTranslationTool {
 		pw.printf("MODULE %s (arg1)\n", stateDiagram.getModule());
 		
 		pw.printf("VAR state: {%s};\n",TextUtils.concatCollection(stateDiagram.getStateDiagram().keySet()));
+		pw.printf("IVAR action : {%s};\n",TextUtils.concatCollection(stateDiagram.getActionList()));
 	}
 
 }

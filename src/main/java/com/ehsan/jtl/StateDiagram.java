@@ -1,5 +1,6 @@
 package com.ehsan.jtl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,17 +24,21 @@ public class StateDiagram {
 	public void addTransitionState(String state, String action,	String transition) {
 		if (state.trim().isEmpty() || action.trim().isEmpty()) return;
 		Map<String, String> transitionState; 
-		if (stateDiagram.get(state) != null) 
+		if (stateDiagram.get(state) != null) {
 			transitionState = stateDiagram.get(state);
-		else 
+		} else {
 			transitionState = new HashMap<String, String>();
+			stateDiagram.put(state, transitionState);
+		}
 		
 		transitionState.put(action, transition);
 	}
 	public Set<String> getActionList () {
 		Set<String> result = new HashSet<String>();
 		for (Map<String, String> transitionState: stateDiagram.values()) {
-			result.addAll(transitionState.keySet());
+			if (transitionState == null) continue;
+			System.out.println(transitionState);
+			result.addAll(transitionState.keySet() != null ? transitionState.keySet() : Collections.<String>emptySet());
 		}
 		return result;
 	}
