@@ -5,7 +5,7 @@ public class Jtl {
 	private static final String OUTPUT_FILENAME = "output.txt";
 	
 	public void run () {
-		System.out.println("Java Tranformer Tool Started");
+		System.out.println("***Java Tranformer Tool Started***\n");
 		
 		InputStateDiagram inputStateDiagram = new InputStateDiagram();
 		NusmvTranslationTool translator = new NusmvTranslationTool();
@@ -16,6 +16,6 @@ public class Jtl {
 		// Doing the translation on state diagram
 		translator.generateNusvmLang(stateDiagram, OUTPUT_FILENAME);
 		
-		System.out.println("Java Tranformer Tool Finished.");
+		System.out.println("\n***Java Tranformer Tool Finished.***");
 	}
 }

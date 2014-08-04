@@ -11,13 +11,13 @@ public class NusmvTranslationTool {
 
 		try {
 			pw = new PrintWriter(new File(filename));
-			
+
 			// This one to put output in file
 			generateNusvmLang(stateDiagram, pw);
-			
+
 			// This one to put output in console
 			generateNusvmLang(stateDiagram, new PrintWriter(System.out, true));
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -31,9 +31,25 @@ public class NusmvTranslationTool {
 				stateDiagram.getModule(), stateDiagram.getArgument());
 		pw.printf("-----------------------------------------\n");
 		pw.printf("MODULE %s (arg1)\n", stateDiagram.getModule());
-		
+
 		pw.printf("VAR state: {%s};\n",TextUtils.concatCollection(stateDiagram.getStateDiagram().keySet()));
 		pw.printf("IVAR action : {%s};\n",TextUtils.concatCollection(stateDiagram.getActionList()));
+
+		pw.printf("INIT (state = %s)\n", stateDiagram.getInitialState());
+
+		pw.printf("\tTRANS(next(state)= case");
+
+		for (String state: stateDiagram.getStateDiagram().keySet()) {
+			if (stateDiagram.getStateDiagram().get(state) != null) {
+				for (String action: stateDiagram.getStateDiagram().get(state).keySet()) {
+					pw.printf("\t\t(state = %s & action = %s) : %s;\n", 
+							state, 
+							action, 
+							stateDiagram.getStateDiagram().get(state).get(action));
+				}
+			}
+		}
+		pw.printf("\tesac)\n");
 	}
 
 }

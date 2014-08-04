@@ -11,6 +11,7 @@ public class StateDiagram {
 	String module;
 	String argument;
 	Set<String> actions = new HashSet<String>();
+	String initialState;
 	
 	// Map <State, Map<Action,State>>
 	private Map<String, Map<String, String>> stateDiagram = new HashMap<String, Map<String, String>>();
@@ -68,4 +69,12 @@ public class StateDiagram {
 	public void setActions(Set<String> actions) {
 		this.actions = actions;
 	}
+
+	public String getInitialState() {
+		return initialState;
+	}
+	public void setInitialState(String initialState) {
+		this.initialState = initialState;
+	}
+	
 }

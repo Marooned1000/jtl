@@ -22,6 +22,16 @@ public class InputStateDiagram {
 	    	stateDiagram.addState(state);
 	    }
 	    
+	    System.out.println("Initial State"+stateDiagram.getStateDiagram().keySet()+": ");
+    	String input = scanner.nextLine();
+    	if (stateDiagram.getStateDiagram().keySet().contains(input)) {
+    		stateDiagram.setInitialState(input);
+    	} else {
+    		System.out.println("Error: State doesnt exist, defaulting initial state to a random state");
+    		stateDiagram.setInitialState(stateDiagram.getStateDiagram().keySet().iterator().next());
+    	}
+
+	    
 	    for (String state: stateDiagram.getStateDiagram().keySet()) {
 	    	while (true) {
 		    	
@@ -41,7 +51,7 @@ public class InputStateDiagram {
 		    	stateDiagram.addTransitionState(state, action, transition);
 		    }
 	    }
-	    
+	    	    
 	    scanner.close();
 		return stateDiagram;
 	}
