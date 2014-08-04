@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+import com.ehsan.jtl.util.TextUtils;
+
 public class NusmvTranslationTool {
 
 	public void generateNusvmLang (StateDiagram stateDiagram, String filename) {
@@ -37,7 +39,7 @@ public class NusmvTranslationTool {
 
 		pw.printf("INIT (state = %s)\n", stateDiagram.getInitialState());
 
-		pw.printf("\tTRANS(next(state)= case");
+		pw.printf("\tTRANS(next(state)= case\n");
 
 		for (String state: stateDiagram.getStateDiagram().keySet()) {
 			if (stateDiagram.getStateDiagram().get(state) != null) {

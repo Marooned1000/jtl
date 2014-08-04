@@ -38,7 +38,6 @@ public class StateDiagram {
 		Set<String> result = new HashSet<String>();
 		for (Map<String, String> transitionState: stateDiagram.values()) {
 			if (transitionState == null) continue;
-			System.out.println(transitionState);
 			result.addAll(transitionState.keySet() != null ? transitionState.keySet() : Collections.<String>emptySet());
 		}
 		return result;
