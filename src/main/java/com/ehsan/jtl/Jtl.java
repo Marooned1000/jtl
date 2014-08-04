@@ -12,6 +12,7 @@ public class Jtl {
 		
 		StateDiagram stateDiagram = inputStateDiagram.getStateDiagram();
 		translator.generateNusvmLang(stateDiagram, OUTPUT_FILENAME);
+		
 		System.out.println("Java Tranformer Tool Finished.");
 	}
 }
