@@ -15,11 +15,13 @@ public class StateDiagram {
 	private Map<String, Map<String, String>> stateDiagram = new HashMap<String, Map<String, String>>();
 
 	public void addState (String state) {
+		if (state.trim().isEmpty()) return;
 		if (stateDiagram.get(state) == null)
 			stateDiagram.put(state, null);
 	}
 	
 	public void addTransitionState(String state, String action,	String transition) {
+		if (state.trim().isEmpty() || action.trim().isEmpty()) return;
 		Map<String, String> transitionState; 
 		if (stateDiagram.get(state) != null) 
 			transitionState = stateDiagram.get(state);

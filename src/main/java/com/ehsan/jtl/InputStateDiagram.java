@@ -34,6 +34,10 @@ public class InputStateDiagram {
 		    	String transition = scanner.nextLine();
 		    	if (transition.equals("#")) break;
 		    	
+		    	if (!stateDiagram.getStateDiagram().keySet().contains(transition)) {
+		    		System.out.println("Error: State " + transition + " doesn't exist");
+		    		continue;
+		    	}
 		    	stateDiagram.addTransitionState(state, action, transition);
 		    }
 	    }
