@@ -47,7 +47,7 @@ public class NusmvTranslationTool {
 			if (stateDiagram.getStateDiagram().get(state) != null) {
 				for (Action action: stateDiagram.getStateDiagram().get(state).keySet()) {
 					String actionTypePrefix = (action.getType().equals(Constants.DEFAULT_AGENT_NAME)?"":(action.getType()+"."));
-					pw.printf("\t\t(state = %s & action = %s%s) : %s;\n", 
+					pw.printf("\t\t(state = %s & %saction = %s) : %s;\n", 
 							state, 
 							actionTypePrefix,
 							action.getName(), 
