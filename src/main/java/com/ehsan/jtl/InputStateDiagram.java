@@ -41,7 +41,7 @@ public class InputStateDiagram {
 		    	String action = scanner.nextLine();
 		    	if (action.equals("#") || action.trim().isEmpty()) break;
 		    	
-		    	System.out.printf("For State %s, Action %s, Enter Action Type(Default %s): \n", 
+		    	System.out.printf("For State %s, Action %s, Enter Action Type(default %s): \n", 
 		    			state, action, Constants.DEFAULT_AGENT_NAME);
 		    	String type = scanner.nextLine();
 		    	if (type.trim().isEmpty()) type = Constants.DEFAULT_AGENT_NAME;
