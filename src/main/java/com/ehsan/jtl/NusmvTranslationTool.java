@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 import com.ehsan.jtl.model.Action;
+import com.ehsan.jtl.model.State;
+import com.ehsan.jtl.model.StateDiagram;
 import com.ehsan.jtl.util.Constants;
 import com.ehsan.jtl.util.TextUtils;
 
@@ -43,12 +45,12 @@ public class NusmvTranslationTool {
 
 		pw.printf("\tTRANS(next(state)= case\n");
 
-		for (String state: stateDiagram.getStateDiagram().keySet()) {
+		for (State state: stateDiagram.getStateDiagram().keySet()) {
 			if (stateDiagram.getStateDiagram().get(state) != null) {
 				for (Action action: stateDiagram.getStateDiagram().get(state).keySet()) {
 					String actionTypePrefix = (action.getType().equals(Constants.DEFAULT_AGENT_NAME)?"":(action.getType()+"."));
 					pw.printf("\t\t(state = %s & %saction = %s) : %s;\n", 
-							state, 
+							state.getName(), 
 							actionTypePrefix,
 							action.getName(), 
 							stateDiagram.getStateDiagram().get(state).get(action));

@@ -2,6 +2,10 @@ package com.ehsan.jtl;
 
 import java.util.Scanner;
 
+import jdk.nashorn.internal.runtime.FindProperty;
+
+import com.ehsan.jtl.model.State;
+import com.ehsan.jtl.model.StateDiagram;
 import com.ehsan.jtl.util.Constants;
 
 public class InputStateDiagram {
@@ -27,17 +31,16 @@ public class InputStateDiagram {
 	    System.out.println("Initial State"+stateDiagram.getStateDiagram().keySet()+": ");
     	String input = scanner.nextLine();
     	if (stateDiagram.getStateDiagram().keySet().contains(input)) {
-    		stateDiagram.setInitialState(input);
+    		stateDiagram.setInitialState(stateDiagram.getStateWithName(input));
     	} else {
     		System.out.println("Error: State doesnt exist, defaulting initial state to a random state");
     		stateDiagram.setInitialState(stateDiagram.getStateDiagram().keySet().iterator().next());
     	}
-
 	    
-	    for (String state: stateDiagram.getStateDiagram().keySet()) {
+	    for (State state: stateDiagram.getStateDiagram().keySet()) {
 	    	while (true) {
 		    	
-	    		System.out.printf("For State %s, Enter Action: (# to end)\n", state);
+	    		System.out.printf("For State %s, Enter Action: (# to end)\n", state.getName());
 		    	String action = scanner.nextLine();
 		    	if (action.equals("#") || action.trim().isEmpty()) break;
 		    	
@@ -56,7 +59,7 @@ public class InputStateDiagram {
 		    		System.out.println("Error: State " + transition + " doesn't exist");
 		    		continue;
 		    	}
-		    	stateDiagram.addTransitionState(state, action, type, transition);
+		    	stateDiagram.addTransitionState(state.getName(), action, type, transition);
 		    }
 	    }
 	    	    
