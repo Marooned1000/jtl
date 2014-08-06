@@ -66,12 +66,12 @@ public class InputStateDiagram {
 				if (action.equals("#") || action.trim().isEmpty()) break;
 
 				System.out.printf("For State %s, Action %s, Enter Action Type(default %s): \n", 
-						state, action, Constants.DEFAULT_AGENT_NAME);
+						state.getName(), action, Constants.DEFAULT_AGENT_NAME);
 				String type = scanner.nextLine();
 				if (type.trim().isEmpty()) type = Constants.DEFAULT_AGENT_NAME;
 
 				System.out.printf("For State %s, Action %s, Enter Transition State%s: \n", 
-						state, action, stateDiagram.getStateNames());
+						state.getName(), action, stateDiagram.getStateNames());
 				String transition = scanner.nextLine();
 
 				if (transition.equals("#") || 
