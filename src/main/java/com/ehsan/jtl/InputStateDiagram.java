@@ -17,18 +17,18 @@ public class InputStateDiagram {
 
 			StateDiagram stateDiagram = new StateDiagram();
 
-			System.out.println("Enter New Module Name (# to end): ");
+			System.out.println("Please insert the Name of the model (# to end): ");
 			String module = scanner.nextLine();
 			if (module.equals("#") || module.trim().isEmpty()) break;
 
 			stateDiagram.setModule(module);
 
-			System.out.println("Argument: ");
+			System.out.println("What are the arguments of this model: ");
 			String argument = scanner.nextLine();
 			stateDiagram.setArgument(argument);
 
 			while (true) {
-				System.out.println("Enter New State Name"+stateDiagram.getStateNames()+": (# to end)");
+				System.out.println("Please enter the states of the model and press enter after each state"+stateDiagram.getStateNames()+": (# to end)");
 				String stateStr = scanner.nextLine();
 				if (stateStr.equals("#") || stateStr.trim().isEmpty()) break;
 
@@ -37,7 +37,7 @@ public class InputStateDiagram {
 
 			}
 
-			System.out.println("Initial State"+stateDiagram.getStateNames()+": ");
+			System.out.println("Please enter the initial state of the model"+stateDiagram.getStateNames()+": ");
 			String input = scanner.nextLine();
 			if (stateDiagram.getStateWithName(input) != null) {
 				stateDiagram.setInitialState(stateDiagram.getStateWithName(input));
@@ -60,26 +60,26 @@ public class InputStateDiagram {
 						state.setCommitment(true);
 						state.setCommitedTo(commitedToState);
 
-						stateDiagram.addTransitionState(state.getName(), "Alpha_cus", Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
-						stateDiagram.addTransitionState(state.getName(), "Beta_cus", Constants.DEFAULT_AGENT_NAME, state.getName());
-						stateDiagram.addTransitionState(commitedToState.getName(), "Beta_cus", Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
-						stateDiagram.addTransitionState(commitedToState.getName(), "Gamma_cus", Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
+						stateDiagram.addTransitionState(state.getName(), "Alpha_"+stateDiagram.getArgument(), Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
+						stateDiagram.addTransitionState(state.getName(), "Beta_"+stateDiagram.getArgument(), Constants.DEFAULT_AGENT_NAME, state.getName());
+						stateDiagram.addTransitionState(commitedToState.getName(), "Beta_"+stateDiagram.getArgument(), Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
+						stateDiagram.addTransitionState(commitedToState.getName(), "Gamma_"+stateDiagram.getArgument(), Constants.DEFAULT_AGENT_NAME, state.getName());
 					}
 				}
 
 				
 				// Asking for tansitions/actions
 				while (true) {
-					System.out.printf("For State %s, Enter Action: (# to end)\n", state.getName());
+					System.out.printf("From state %s, enter the actions and press enter after each, press # to end\n", state.getName());
 					String action = scanner.nextLine();
 					if (action.equals("#") || action.trim().isEmpty()) break;
 
-					System.out.printf("For State %s, Action %s, Enter Action Type(default %s): \n", 
+					System.out.printf("For State %s, Action %s, Who is performing this action (default %s): \n", 
 							state.getName(), action, Constants.DEFAULT_AGENT_NAME);
 					String type = scanner.nextLine();
 					if (type.trim().isEmpty()) type = Constants.DEFAULT_AGENT_NAME;
 
-					System.out.printf("For State %s, Action %s, Enter Transition State%s: \n", 
+					System.out.printf("From state %s with Action %s, enter the target state%s: \n", 
 							state.getName(), action, stateDiagram.getStateNames());
 					String transition = scanner.nextLine();
 
