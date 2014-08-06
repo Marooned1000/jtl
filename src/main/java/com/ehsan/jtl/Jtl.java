@@ -1,5 +1,7 @@
 package com.ehsan.jtl;
 
+import java.util.List;
+
 import com.ehsan.jtl.model.StateDiagram;
 
 public class Jtl {
@@ -13,10 +15,11 @@ public class Jtl {
 		NusmvTranslationTool translator = new NusmvTranslationTool();
 		
 		// Building the module from console input
-		StateDiagram stateDiagram = inputStateDiagram.getStateDiagram();
+		List<StateDiagram> stateDiagrams = inputStateDiagram.getStateDiagrams();
 		
 		// Doing the translation on state diagram
-		translator.generateNusvmLang(stateDiagram, OUTPUT_FILENAME);
+		translator.generateNusvmLang(stateDiagrams, OUTPUT_FILENAME);
+		
 		
 		System.out.println("\n***Java Tranformer Tool Finished.***");
 	}

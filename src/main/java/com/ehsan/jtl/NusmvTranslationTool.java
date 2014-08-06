@@ -3,6 +3,7 @@ package com.ehsan.jtl;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import com.ehsan.jtl.model.Action;
 import com.ehsan.jtl.model.State;
@@ -12,18 +13,18 @@ import com.ehsan.jtl.util.TextUtils;
 
 public class NusmvTranslationTool {
 
-	public void generateNusvmLang (StateDiagram stateDiagram, String filename) {
+	public void generateNusvmLang (List<StateDiagram> stateDiagrams, String filename) {
 		PrintWriter pw = null;
-
 		try {
 			pw = new PrintWriter(new File(filename));
+			for (StateDiagram stateDiagram: stateDiagrams) {
+				
+				// This one to put output in file
+				generateNusvmLang(stateDiagram, pw);
 
-			// This one to put output in file
-			generateNusvmLang(stateDiagram, pw);
-
-			// This one to put output in console
-			generateNusvmLang(stateDiagram, new PrintWriter(System.out, true));
-
+				// This one to put output in console
+				generateNusvmLang(stateDiagram, new PrintWriter(System.out, true));
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -41,7 +42,7 @@ public class NusmvTranslationTool {
 		pw.printf("VAR state: {%s};\n",TextUtils.concatCollection(stateDiagram.getStateNames()));
 		pw.printf("IVAR action : {%s};\n",TextUtils.concatCollection(stateDiagram.getActionListOfType(Constants.DEFAULT_AGENT_NAME)));
 
-		pw.printf("INIT (state = %s)\n", stateDiagram.getInitialState());
+		pw.printf("INIT (state = %s)\n", stateDiagram.getInitialState().getName());
 
 		pw.printf("\tTRANS(next(state)= case\n");
 
