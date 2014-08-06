@@ -23,6 +23,12 @@ public class StateDiagram {
 			stateDiagram.put(state, null);
 	}
 	
+	public void addState (State state) {
+		if (state == null) return;
+		if (getStateWithName(state.getName()) == null)  // State needs better equal method
+			stateDiagram.put(state, null);
+	}
+	
 	public void addTransitionState(String stateStr, String actionStr, String type, String transition) {
 		if (stateStr.trim().isEmpty() || actionStr.trim().isEmpty()) return;
 		if (getStateWithName(transition) == null) {
@@ -42,11 +48,19 @@ public class StateDiagram {
 	
 	public State getStateWithName (String stateStr) {
 		for (State state: stateDiagram.keySet()) {
-			if (state.getName().equals(state)) {
+			if (state.getName().equals(stateStr)) {
 				return state;
 			}
 		}
 		return null;
+	}
+	
+	public Set<String> getStateNames () {
+		Set<String> result = new HashSet<String>();
+		for (State state: stateDiagram.keySet()) {
+			result.add(state.getName());
+		}
+		return result;
 	}
 	
 	public Set<Action> getActionList () {

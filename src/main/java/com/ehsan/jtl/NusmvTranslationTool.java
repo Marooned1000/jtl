@@ -38,7 +38,7 @@ public class NusmvTranslationTool {
 		pw.printf("-----------------------------------------\n");
 		pw.printf("MODULE %s (arg1)\n", stateDiagram.getModule());
 
-		pw.printf("VAR state: {%s};\n",TextUtils.concatCollection(stateDiagram.getStateDiagram().keySet()));
+		pw.printf("VAR state: {%s};\n",TextUtils.concatCollection(stateDiagram.getStateNames()));
 		pw.printf("IVAR action : {%s};\n",TextUtils.concatCollection(stateDiagram.getActionListOfType(Constants.DEFAULT_AGENT_NAME)));
 
 		pw.printf("INIT (state = %s)\n", stateDiagram.getInitialState());
@@ -53,7 +53,7 @@ public class NusmvTranslationTool {
 							state.getName(), 
 							actionTypePrefix,
 							action.getName(), 
-							stateDiagram.getStateDiagram().get(state).get(action));
+							stateDiagram.getStateDiagram().get(state).get(action).getName());
 				}
 			}
 		}
