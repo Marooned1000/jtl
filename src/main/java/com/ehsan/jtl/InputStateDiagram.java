@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import jdk.nashorn.internal.runtime.FindProperty;
-
 import com.ehsan.jtl.model.State;
 import com.ehsan.jtl.model.StateDiagram;
 import com.ehsan.jtl.util.Constants;
@@ -37,7 +35,20 @@ public class InputStateDiagram {
 				State state = new State(stateStr);
 				stateDiagram.addState(state);
 
-				System.out.println("Do you have a commitment in that state(yes/no)?");
+			}
+
+			System.out.println("Initial State"+stateDiagram.getStateNames()+": ");
+			String input = scanner.nextLine();
+			if (stateDiagram.getStateWithName(input) != null) {
+				stateDiagram.setInitialState(stateDiagram.getStateWithName(input));
+			} else {
+				System.out.println("Error: State doesnt exist, defaulting initial state to a random state");
+				stateDiagram.setInitialState(stateDiagram.getStateDiagram().keySet().iterator().next());
+			}
+
+			for (State state: stateDiagram.getStateDiagram().keySet()) {
+				// Asking for commitment
+				System.out.println("Do you have a commitment in state "+state.getName()+" (yes/no)?");
 				String commitment = scanner.nextLine();
 				if (commitment.equalsIgnoreCase("yes")) {
 					System.out.println("What is the state where this commitment is fulfilled"+stateDiagram.getStateNames()+"?");
@@ -55,20 +66,10 @@ public class InputStateDiagram {
 						stateDiagram.addTransitionState(commitedToState.getName(), "Gamma_cus", Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
 					}
 				}
-			}
 
-			System.out.println("Initial State"+stateDiagram.getStateNames()+": ");
-			String input = scanner.nextLine();
-			if (stateDiagram.getStateWithName(input) != null) {
-				stateDiagram.setInitialState(stateDiagram.getStateWithName(input));
-			} else {
-				System.out.println("Error: State doesnt exist, defaulting initial state to a random state");
-				stateDiagram.setInitialState(stateDiagram.getStateDiagram().keySet().iterator().next());
-			}
-
-			for (State state: stateDiagram.getStateDiagram().keySet()) {
+				
+				// Asking for tansitions/actions
 				while (true) {
-
 					System.out.printf("For State %s, Enter Action: (# to end)\n", state.getName());
 					String action = scanner.nextLine();
 					if (action.equals("#") || action.trim().isEmpty()) break;
