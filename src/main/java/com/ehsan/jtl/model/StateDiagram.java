@@ -86,6 +86,12 @@ public class StateDiagram {
 		}
 		return result;
 	}
+	
+	public String getModuleShortName () {
+		if (module == null) return null;
+		if (module.length() < 3) return module.toLowerCase();
+		return module.substring(0,3).toLowerCase();
+	}
 
 	// Getters and Setters
 	public Map<State, Map<Action, State>> getStateDiagram() {

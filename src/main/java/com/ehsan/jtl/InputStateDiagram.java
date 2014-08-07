@@ -60,10 +60,10 @@ public class InputStateDiagram {
 						state.setCommitment(true);
 						state.setCommitedTo(commitedToState);
 
-						stateDiagram.addTransitionState(state.getName(), "Alpha_"+stateDiagram.getArgument(), Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
-						stateDiagram.addTransitionState(state.getName(), "Beta_"+stateDiagram.getArgument(), Constants.DEFAULT_AGENT_NAME, state.getName());
-						stateDiagram.addTransitionState(commitedToState.getName(), "Beta_"+stateDiagram.getArgument(), Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
-						stateDiagram.addTransitionState(commitedToState.getName(), "Gamma_"+stateDiagram.getArgument(), Constants.DEFAULT_AGENT_NAME, state.getName());
+						stateDiagram.addTransitionState(state.getName(), "Alpha_"+stateDiagram.getModuleShortName(), Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
+						stateDiagram.addTransitionState(state.getName(), "Beta_"+stateDiagram.getModuleShortName(), Constants.DEFAULT_AGENT_NAME, state.getName());
+						stateDiagram.addTransitionState(commitedToState.getName(), "Beta_"+stateDiagram.getModuleShortName(), Constants.DEFAULT_AGENT_NAME, commitedToState.getName());
+						stateDiagram.addTransitionState(commitedToState.getName(), "Gamma_"+stateDiagram.getModuleShortName(), Constants.DEFAULT_AGENT_NAME, state.getName());
 					}
 				}
 
