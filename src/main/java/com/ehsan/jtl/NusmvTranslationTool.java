@@ -115,6 +115,8 @@ public class NusmvTranslationTool {
 //			System.out.println("Formula: " + formula);
 
 			currentIndex = parameterIndex + parameter.length();
+			
+			System.out.println("CurrentIndex: " + currentIndex);
 		}
 
 		result = formula;
