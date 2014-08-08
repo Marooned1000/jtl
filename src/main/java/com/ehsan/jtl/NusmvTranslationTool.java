@@ -96,6 +96,9 @@ public class NusmvTranslationTool {
 		String result = formula;
 		String iter = formula;
 		
+		formula = formula.substring(formula.indexOf("="));
+		formula = "SPEC" + formula;
+		
 		while (true) {
 			int kIndex = formula.indexOf("K_");
 			if (kIndex < 0) break;
@@ -118,6 +121,7 @@ public class NusmvTranslationTool {
 			
 		}
 		
+		result = formula;
 		
 		return result;
 	}
