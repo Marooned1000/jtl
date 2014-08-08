@@ -97,7 +97,7 @@ public class NusmvTranslationTool {
 		String iter = formula;
 		
 		formula = formula.substring(formula.indexOf("="));
-		formula = "SPEC" + formula;
+		formula = "SPEC " + formula;
 		
 		while (true) {
 			int kIndex = formula.indexOf("K_");
@@ -111,7 +111,7 @@ public class NusmvTranslationTool {
 			String parameter = formula.substring(parameterIndex).split("\\W+")[0];
 			System.out.println("Parameter: " + parameter);
 			
-			String newFormula = "AAA("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
+			String newFormula = "AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
 			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length(), formula.length()-1); 
 			
 			System.out.println("Formula: " + formula);
