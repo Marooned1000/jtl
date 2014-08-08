@@ -20,19 +20,19 @@ public class NusmvTranslationTool {
 			pw = new PrintWriter(new File(filename));
 			/*
 			for (StateDiagram stateDiagram: stateDiagrams) {
-			
+
 				// This one to put output in file
 				generateNusvmLang(stateDiagram, pw);
 
 				// This one to put output in console
 				generateNusvmLang(stateDiagram, new PrintWriter(System.out, true));
 			}
-			*/
+			 */
 
 			String[] formulas = FileUtil.readLines(formulaInputFileName);
 			generateNusvmFormula(formulas, pw);
 			generateNusvmFormula(formulas, new PrintWriter(System.out, true));
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -68,62 +68,136 @@ public class NusmvTranslationTool {
 		}
 		pw.printf("\tesac)\n");
 	}
-	
+
 	public void generateNusvmFormula(String[] formulas, PrintWriter pw) {
-	
+
 		for (String formula: formulas) {
+
+			formula = formula.substring(formula.indexOf("="));
+			formula = "SPEC " + formula;
+
 			formula = translateF1 (formula);
 			formula = translateF3 (formula);
 			formula = translateF2 (formula);
-			
+
 			pw.println(formula);
 		}
-		
+
 	}
 
 	private String translateF3(String formula) {
-		// TODO Auto-generated method stub
-		return null;
+		String result = formula;
+
+		int currentIndex = 0;
+
+		while (true) {
+			int kIndex = formula.indexOf("Fu(C_", currentIndex);
+			if (kIndex < 0) break;
+
+			String kSubscript = formula.substring(formula.indexOf("{", kIndex)+1,
+					formula.indexOf("}", kIndex));
+
+			String iSubscript = kSubscript.substring(0, kSubscript.indexOf("->"));
+			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length()-1);
+
+//			System.out.println("iSub: " + iSubscript);
+//			System.out.println("jSub: " + jSubscript);
+
+			//System.out.println("kSub: " + kSubscript);
+
+			int parameterIndex = formula.indexOf("}", kIndex) + 1;
+			String parameter = formula.substring(parameterIndex, formula.indexOf(")", parameterIndex));
+			System.out.println("Parameter: " + parameter);
+
+			String newFormula = "(EAX("+iSubscript+".action = Gamma_"+iSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&" +
+					"AAX(Betaj)("+parameter+"))||EAX("+iSubscript+".action = Beta_"+iSubscript+")(EAX("+iSubscript+".action = Gamma_"+iSubscript+")" +
+					"(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX(Beta_"+iSubscript+")("+parameter+")&AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+"))))||" +
+					"EAX("+jSubscript+".action = Beta_"+jSubscript+")(EAX("+jSubscript+".action = Gamma_"+jSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")" +
+					"(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+")))))";
+
+
+			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
+
+//			System.out.println("Formula: " + formula);
+
+			currentIndex = parameterIndex + parameter.length();
+		}
+
+		result = formula;
+
+		return result;
 	}
 
 	private String translateF2(String formula) {
-		// TODO Auto-generated method stub
-		return null;
+		String result = formula;
+
+		formula = formula.substring(formula.indexOf("="));
+		formula = "SPEC " + formula;
+
+		int currentIndex = 0;
+
+		while (true) {
+			int kIndex = formula.indexOf("C_", currentIndex);
+			if (kIndex < 0) break;
+
+			String kSubscript = formula.substring(formula.indexOf("{", kIndex)+1,
+					formula.indexOf("}", kIndex));
+			String iSubscript = kSubscript.substring(0, kSubscript.indexOf("->"));
+			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length()-1);
+//			System.out.println("kSub: " + kSubscript);
+//			System.out.println("iSub: " + iSubscript);
+//			System.out.println("jSub: " + jSubscript);
+
+			int parameterIndex = formula.indexOf("}", kIndex) + 1;
+			String parameter = formula.substring(parameterIndex).split("\\W+")[0];
+			//System.out.println("Parameter: " + parameter);
+
+			String newFormula = "AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+")"
+					+ "&AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+"))";
+			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
+
+//			System.out.println("Formula: " + formula);
+
+			currentIndex = parameterIndex + parameter.length();
+		}
+
+		result = formula;
+
+		return result;
 	}
 
 	//
 	private String translateF1(String formula) {
 		String result = formula;
-		String iter = formula;
-		
+
 		formula = formula.substring(formula.indexOf("="));
 		formula = "SPEC " + formula;
-		
+
 		int currentIndex = 0;
-		
+
 		while (true) {
 			int kIndex = formula.indexOf("K_", currentIndex);
 			if (kIndex < 0) break;
-			
+
 			String kSubscript = formula.substring(formula.indexOf("{", kIndex)+1,
 					formula.indexOf("}", kIndex));
 			//System.out.println("kSub: " + kSubscript);
-			
+
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex).split("\\W+")[0];
 			//System.out.println("Parameter: " + parameter);
-			
+
 			String newFormula = "AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
-			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length(), formula.length()-1); 
-			
-			System.out.println("Formula: " + formula);
-			
+			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
+
+//			System.out.println("Formula: " + formula);
+
 			currentIndex = parameterIndex + parameter.length();
 		}
-		
+
 		result = formula;
-		
+
 		return result;
 	}
-	
+
 }
