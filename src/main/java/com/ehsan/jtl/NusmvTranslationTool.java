@@ -104,7 +104,7 @@ public class NusmvTranslationTool {
 			String parameter = formula.substring(parameterIndex, formula.indexOf(")", parameterIndex));
 
 			String newFormula = "(EAX("+iSubscript+".action = Gamma_"+iSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&" +
-					"AAX(Beta"+jSubscript+")("+parameter+"))||EAX("+iSubscript+".action = Beta_"+iSubscript+")(EAX("+iSubscript+".action = Gamma_"+iSubscript+")" +
+					"AAX(Beta_"+jSubscript+")("+parameter+"))||EAX("+iSubscript+".action = Beta_"+iSubscript+")(EAX("+iSubscript+".action = Gamma_"+iSubscript+")" +
 					"(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX(Beta_"+iSubscript+")("+parameter+")&AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+"))))||" +
 					"EAX("+jSubscript+".action = Beta_"+jSubscript+")(EAX("+jSubscript+".action = Gamma_"+jSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")" +
 					"(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+")))))";
