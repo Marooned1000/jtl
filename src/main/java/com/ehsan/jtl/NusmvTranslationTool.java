@@ -99,26 +99,26 @@ public class NusmvTranslationTool {
 		formula = formula.substring(formula.indexOf("="));
 		formula = "SPEC " + formula;
 		
+		int currentIndex = 0;
+		
 		while (true) {
-			int kIndex = formula.indexOf("K_");
+			int kIndex = formula.indexOf("K_", currentIndex);
 			if (kIndex < 0) break;
 			
 			String kSubscript = formula.substring(formula.indexOf("{", kIndex)+1,
 					formula.indexOf("}", kIndex));
-			System.out.println("kSub: " + kSubscript);
+			//System.out.println("kSub: " + kSubscript);
 			
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex).split("\\W+")[0];
-			System.out.println("Parameter: " + parameter);
+			//System.out.println("Parameter: " + parameter);
 			
 			String newFormula = "AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
 			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length(), formula.length()-1); 
 			
 			System.out.println("Formula: " + formula);
 			
-			formula = formula.substring(kIndex+1);
-			
-			
+			currentIndex = parameterIndex + parameter.length();
 		}
 		
 		result = formula;
