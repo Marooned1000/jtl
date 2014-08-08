@@ -98,7 +98,7 @@ public class NusmvTranslationTool {
 					formula.indexOf("}", kIndex));
 
 			String iSubscript = kSubscript.substring(0, kSubscript.indexOf("->"));
-			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length()-1);
+			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length());
 
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex, formula.indexOf(")", parameterIndex));
@@ -137,7 +137,7 @@ public class NusmvTranslationTool {
 			String kSubscript = formula.substring(formula.indexOf("{", kIndex)+1,
 					formula.indexOf("}", kIndex));
 			String iSubscript = kSubscript.substring(0, kSubscript.indexOf("->"));
-			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length()-1);
+			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length());
 
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex).split("\\W+")[0];
