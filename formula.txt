@@ -1,0 +1,2 @@
+ph_1 = AG!(Fu(C_{Cus->Mer}Pay)&AG(!K_{Mer}Pay))
+ph_2 = AG!(Fu(C_{Cus->Mer}Pay)&AG(!K_{Cus}Pay))
