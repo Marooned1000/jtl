@@ -100,14 +100,8 @@ public class NusmvTranslationTool {
 			String iSubscript = kSubscript.substring(0, kSubscript.indexOf("->"));
 			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length()-1);
 
-//			System.out.println("iSub: " + iSubscript);
-//			System.out.println("jSub: " + jSubscript);
-
-			//System.out.println("kSub: " + kSubscript);
-
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex, formula.indexOf(")", parameterIndex));
-			System.out.println("Parameter: " + parameter);
 
 			String newFormula = "(EAX("+iSubscript+".action = Gamma_"+iSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&" +
 					"AAX(Betaj)("+parameter+"))||EAX("+iSubscript+".action = Beta_"+iSubscript+")(EAX("+iSubscript+".action = Gamma_"+iSubscript+")" +
@@ -144,13 +138,9 @@ public class NusmvTranslationTool {
 					formula.indexOf("}", kIndex));
 			String iSubscript = kSubscript.substring(0, kSubscript.indexOf("->"));
 			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length()-1);
-//			System.out.println("kSub: " + kSubscript);
-//			System.out.println("iSub: " + iSubscript);
-//			System.out.println("jSub: " + jSubscript);
 
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex).split("\\W+")[0];
-			//System.out.println("Parameter: " + parameter);
 
 			String newFormula = "AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+")"
 					+ "&AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+"))";
@@ -181,17 +171,13 @@ public class NusmvTranslationTool {
 
 			String kSubscript = formula.substring(formula.indexOf("{", kIndex)+1,
 					formula.indexOf("}", kIndex));
-			//System.out.println("kSub: " + kSubscript);
 
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex).split("\\W+")[0];
-			//System.out.println("Parameter: " + parameter);
 
 			String newFormula = "AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
 			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
-
-//			System.out.println("Formula: " + formula);
-
+			
 			currentIndex = parameterIndex + parameter.length();
 		}
 
