@@ -99,7 +99,7 @@ public class NusmvTranslationTool {
 
 			String iSubscript = kSubscript.substring(0, kSubscript.indexOf("->"));
 			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length());
-
+			
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex, formula.indexOf(")", parameterIndex));
 
