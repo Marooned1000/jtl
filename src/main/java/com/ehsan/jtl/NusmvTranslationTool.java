@@ -17,6 +17,10 @@ public class NusmvTranslationTool {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(new File(filename));
+			
+			// generate header
+			generateHeader (stateDiagrams, pw);
+			
 			for (StateDiagram stateDiagram: stateDiagrams) {
 
 				// This one to put output in file
@@ -33,6 +37,27 @@ public class NusmvTranslationTool {
 			e.printStackTrace();
 		} finally {
 			pw.close();
+		}
+	}
+
+	private void generateHeader(List<StateDiagram> stateDiagrams, PrintWriter pw) {
+		pw.println("Module main");
+		pw.println("Var");
+		
+		if (stateDiagrams.size() == 1) {
+			pw.printf("%s : process %s(%s);\n",
+					stateDiagrams.get(0).getModuleShortName(),
+					stateDiagrams.get(0).getModule(),
+					stateDiagrams.get(0).getModuleShortName());
+		} else {
+			pw.printf("%s : process %s(%s);\n",
+					stateDiagrams.get(1).getModuleShortName(),
+					stateDiagrams.get(0).getModule(),
+					stateDiagrams.get(0).getModuleShortName());
+			pw.printf("%s : process %s(%s);\n",
+					stateDiagrams.get(0).getModuleShortName(),
+					stateDiagrams.get(1).getModule(),
+					stateDiagrams.get(1).getModuleShortName());
 		}
 	}
 
