@@ -49,7 +49,7 @@ public class NusmvTranslationTool {
 					stateDiagrams.get(0).getModuleShortName(),
 					stateDiagrams.get(0).getModule(),
 					stateDiagrams.get(0).getModuleShortName());
-		} else {
+		} else if (stateDiagrams.size() > 1){
 			pw.printf("%s : process %s(%s);\n",
 					stateDiagrams.get(1).getModuleShortName(),
 					stateDiagrams.get(0).getModule(),
