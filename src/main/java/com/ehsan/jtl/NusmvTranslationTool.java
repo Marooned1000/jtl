@@ -20,6 +20,7 @@ public class NusmvTranslationTool {
 			
 			// generate header
 			generateHeader (stateDiagrams, pw);
+			generateHeader (stateDiagrams, new PrintWriter(System.out, true));
 			
 			for (StateDiagram stateDiagram: stateDiagrams) {
 
