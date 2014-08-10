@@ -34,7 +34,3 @@ For more information, you can contact at
 E-mail: bentahar at ciise.concordia.ca, 
 faisalalsaqqar1 at gmail.com, 
 ehkasl at gmail
-
-
-------------------------------------------------------------------------------------------------------------------------------
-Copyright 2014 JTT. All rights reserved. JTT and its use are subject to copyright, trademark, patent and/or laws. 
