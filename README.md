@@ -30,8 +30,8 @@ Running JTT
 JTT can be reached at:
 
 Web site: https://github.com/Marooned202/jtl
-E-mail: bentahar@ciise.concordia.ca,
-              ehkasl@gmail.com, faisalalsaqqar1@gmail.com
+E-mail: bentahar at ciise.concordia.ca,
+              ehkasl at gmail.com, faisalalsaqqar1 at gmail.com
 
 Copyright 2014 JTT. All rights reserved.
 JTT and its use are subject to copyright, trademark, patent and/or laws. 
