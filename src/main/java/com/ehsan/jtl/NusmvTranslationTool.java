@@ -106,7 +106,7 @@ public class NusmvTranslationTool {
 			String newFormula = "(EAX("+iSubscript+".action = Gamma_"+iSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&" +
 					"AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+"))||EAX("+iSubscript+".action = Beta_"+iSubscript+")(EAX("+iSubscript+".action = Gamma_"+iSubscript+")" +
 					"(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+"))))||" +
-					"EAX("+jSubscript+".action = Beta_"+jSubscript+")(EAX("+jSubscript+".action = Gamma_"+jSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")" +
+					"EAX("+jSubscript+".action = Beta_"+jSubscript+")(EAX("+iSubscript+".action = Gamma_"+iSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")" +
 					"(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+")))))";
 
 
@@ -173,7 +173,12 @@ public class NusmvTranslationTool {
 					formula.indexOf("}", kIndex));
 
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
-			String parameter = formula.substring(parameterIndex).split("\\W+")[0];
+			String parameter = "";
+			if (formula.charAt(parameterIndex) == '(') {
+				parameter = formula.substring(parameterIndex+1, formula.indexOf(")", parameterIndex));
+			} else {
+				parameter = formula.substring(parameterIndex).split("\\W+")[0];
+			}
 
 			String newFormula = "AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
 			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
