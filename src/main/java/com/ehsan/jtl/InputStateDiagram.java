@@ -13,6 +13,7 @@ import com.ehsan.jtl.util.FileUtil;
 public class InputStateDiagram {
 	public List<StateDiagram> getStateDiagrams() {
 		List<StateDiagram> stateDiagrams = new ArrayList<StateDiagram>();
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 
 		while (true) {
@@ -97,7 +98,7 @@ public class InputStateDiagram {
 			stateDiagrams.add(stateDiagram);
 		}
 
-		scanner.close();
+		//scanner.close();
 		return stateDiagrams;
 	}
 	
@@ -135,7 +136,7 @@ public class InputStateDiagram {
 			specifications = specList.toArray(new String[specList.size()]);
 		}
 		
-		scanner.close();
+		//scanner.close();
 		return specifications;
 	}
 }
