@@ -31,7 +31,7 @@ JTT can be reached at:
 
 Web site: https://github.com/Marooned202/jtl
 E-mail: bentahar at ciise.concordia.ca,
-              ehkasl at gmail.com, faisalalsaqqar1 at gmail.com
+              faisalalsaqqar1 at gmail.com, ehkasl at gmail
 
 Copyright 2014 JTT. All rights reserved.
 JTT and its use are subject to copyright, trademark, patent and/or laws. 
