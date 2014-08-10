@@ -66,6 +66,7 @@ public class NusmvTranslationTool {
 	}
 
 	public void generateNusvmFormula(String[] formulas, PrintWriter pw) {
+		pw.println();
 		for (String formula: formulas) {
 			String spec = formula;
 			try {
