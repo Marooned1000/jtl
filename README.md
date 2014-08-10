@@ -1,4 +1,37 @@
-jtl
-===
+JAVA Transformation Tool (JTT) Version 1.0  07/20/2014
 
-This tool reads a user model and specifications in the CTLKC+ logic as input then it generates an extended NuSMV code as output. This code will be used by the NuSMV model checker later.
+GENERAL USAGE NOTES.
+--------------------------------------
+- JTT requires Java 6 or later to run.
+
+- JTT is a software that automates the reduction process of transforming CTLKC+ logic into ARCTL logic then generates the equivalent extended NuSMV code. To do so, the user has to input a CTLKC+ model and specifications then the JTT will generate the equivalent extended NuSMV code. This code will be used as an input for extended NuSMV model checker to check whether the input model satisfies the specifications or not.
+
+Running JTT
+---------------------
+-  Run Main.java class after copying all JTT files.
+-  Insert the name of each model (Agent) and # to end.
+-  For each model, insert its arguments (names of agents interacting with the          current agent). 
+-  Insert the states of the current model and press enter after each state and # to       end.
+-  Insert the name of the initial state of the current model.
+-  For each state in the model :
+   1- Indicate whether it has a commitment or not. If yes, insert the name of the                    fulfillment state.
+   2- Insert its actions and press # to end.
+   3- For each action, insert who is performing the action.  If the current agent                performs the action press enter, else insert the name of agent (argument).
+  4- Insert the target state of the current action.
+- Presee # when you end inserting models.
+
+- After inserting models, insert the CTLKC+ specifications. Specifications can be   inserted using a text file or directly using key board.
+
+- Finally, JTT will generate the extended NuSMV code for each model and the      specifications.
+
+
+=====================================================================
+
+JTT can be reached at:
+
+Web site: https://github.com/Marooned202/jtl
+E-mail: bentahar@ciise.concordia.ca,
+              ehkasl@gmail.com, faisalalsaqqar1@gmail.com
+
+Copyright 2014 JTT. All rights reserved.
+JTT and its use are subject to copyright, trademark, patent and/or laws. 
