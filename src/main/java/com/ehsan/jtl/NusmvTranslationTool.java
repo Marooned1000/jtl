@@ -9,16 +9,14 @@ import com.ehsan.jtl.model.Action;
 import com.ehsan.jtl.model.State;
 import com.ehsan.jtl.model.StateDiagram;
 import com.ehsan.jtl.util.Constants;
-import com.ehsan.jtl.util.FileUtil;
 import com.ehsan.jtl.util.TextUtil;
 
 public class NusmvTranslationTool {
 
-	public void generateNusvmLang (List<StateDiagram> stateDiagrams, String filename, String formulaInputFileName) {
+	public void generateNusvmLang (List<StateDiagram> stateDiagrams, String[] formulas, String filename, String formulaInputFileName) {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(new File(filename));
-			/*
 			for (StateDiagram stateDiagram: stateDiagrams) {
 
 				// This one to put output in file
@@ -27,9 +25,7 @@ public class NusmvTranslationTool {
 				// This one to put output in console
 				generateNusvmLang(stateDiagram, new PrintWriter(System.out, true));
 			}
-			 */
 
-			String[] formulas = FileUtil.readLines(formulaInputFileName);
 			generateNusvmFormula(formulas, pw);
 			generateNusvmFormula(formulas, new PrintWriter(System.out, true));
 
@@ -70,19 +66,22 @@ public class NusmvTranslationTool {
 	}
 
 	public void generateNusvmFormula(String[] formulas, PrintWriter pw) {
-
 		for (String formula: formulas) {
+			String spec = formula;
+			try {
+				formula = formula.substring(formula.indexOf("="));
+				formula = "SPEC " + formula;
 
-			formula = formula.substring(formula.indexOf("="));
-			formula = "SPEC " + formula;
+				formula = translateF1 (formula);
+				formula = translateF3 (formula);
+				formula = translateF2 (formula);
 
-			formula = translateF1 (formula);
-			formula = translateF3 (formula);
-			formula = translateF2 (formula);
-
+			} catch (Exception e) {
+				System.out.println("Specification line " + spec + " has syntax error");
+				e.printStackTrace();
+			}
 			pw.println(formula);
 		}
-
 	}
 
 	private String translateF3(String formula) {
@@ -99,7 +98,7 @@ public class NusmvTranslationTool {
 
 			String iSubscript = kSubscript.substring(0, kSubscript.indexOf("->"));
 			String jSubscript = kSubscript.substring(kSubscript.indexOf("->")+2, kSubscript.length());
-			
+
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex, formula.indexOf(")", parameterIndex));
 
@@ -112,7 +111,7 @@ public class NusmvTranslationTool {
 
 			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
 
-//			System.out.println("Formula: " + formula);
+			//			System.out.println("Formula: " + formula);
 
 			currentIndex = parameterIndex + parameter.length();
 		}
@@ -146,7 +145,7 @@ public class NusmvTranslationTool {
 					+ "&AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+"))";
 			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
 
-//			System.out.println("Formula: " + formula);
+			//			System.out.println("Formula: " + formula);
 
 			currentIndex = parameterIndex + parameter.length();
 		}
@@ -182,7 +181,7 @@ public class NusmvTranslationTool {
 
 			String newFormula = "AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
 			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
-			
+
 			currentIndex = parameterIndex + parameter.length();
 		}
 

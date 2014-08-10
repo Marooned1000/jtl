@@ -1,5 +1,6 @@
 package com.ehsan.jtl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,6 +8,7 @@ import java.util.Scanner;
 import com.ehsan.jtl.model.State;
 import com.ehsan.jtl.model.StateDiagram;
 import com.ehsan.jtl.util.Constants;
+import com.ehsan.jtl.util.FileUtil;
 
 public class InputStateDiagram {
 	public List<StateDiagram> getStateDiagrams() {
@@ -97,5 +99,43 @@ public class InputStateDiagram {
 
 		scanner.close();
 		return stateDiagrams;
+	}
+	
+	
+	public String[] getSpecifications() {
+		Scanner scanner = new Scanner(System.in);
+		String[] specifications = null;
+
+		System.out.println("Specifictions, do you want to enter specs from console or have them read them from a file (file,console)?");
+		String input = scanner.nextLine();
+		
+		if (input.startsWith("f") || input.startsWith("F")) {
+			System.out.println("Please enter input filename (default: "+ Constants.FORMULA_INPUT_FILENAME +")?");
+			input = scanner.nextLine();
+			String filename = Constants.FORMULA_INPUT_FILENAME;
+			if (!input.trim().isEmpty()) {
+				filename = input;
+			}
+			try {
+				specifications = FileUtil.readLines(filename);
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Cannot open input file");
+			} finally {
+				scanner.close();
+			}
+		} else {
+			List<String> specList = new ArrayList<String>();
+			while (true) {
+				System.out.println("Please insert the new specefiction(# to end): ");
+				String spec = scanner.nextLine();
+				if (spec.equals("#") || spec.trim().isEmpty()) break;
+				specList.add(spec);
+			}
+			specifications = specList.toArray(new String[specList.size()]);
+		}
+		
+		scanner.close();
+		return specifications;
 	}
 }
