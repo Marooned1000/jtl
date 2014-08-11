@@ -17,11 +17,11 @@ public class NusmvTranslationTool {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(new File(filename));
-			
+
 			// generate header
 			generateHeader (stateDiagrams, pw);
 			generateHeader (stateDiagrams, new PrintWriter(System.out, true));
-			
+
 			for (StateDiagram stateDiagram: stateDiagrams) {
 
 				// This one to put output in file
@@ -44,13 +44,13 @@ public class NusmvTranslationTool {
 	private void generateHeader(List<StateDiagram> stateDiagrams, PrintWriter pw) {
 		pw.println("Module main");
 		pw.println("Var");
-		
+
 		if (stateDiagrams.size() == 1) {
 			pw.printf("%s : process %s(%s);\n",
 					stateDiagrams.get(0).getModuleShortName(),
 					stateDiagrams.get(0).getModule(),
 					stateDiagrams.get(0).getModuleShortName());
-		} else if (stateDiagrams.size() > 1){
+		} else if (stateDiagrams.size() == 2){
 			pw.printf("%s : process %s(%s);\n",
 					stateDiagrams.get(1).getModuleShortName(),
 					stateDiagrams.get(0).getModule(),
@@ -59,6 +59,22 @@ public class NusmvTranslationTool {
 					stateDiagrams.get(0).getModuleShortName(),
 					stateDiagrams.get(1).getModule(),
 					stateDiagrams.get(1).getModuleShortName());
+		} else if (stateDiagrams.size() > 2){
+			for (StateDiagram stateDiagram: stateDiagrams) {
+				if (stateDiagram.equals(stateDiagrams.get(0))) continue;
+				pw.printf("%s : process %s(%s,%s);\n",
+						stateDiagram.getModuleShortName(),
+						stateDiagram.getModule(),
+						stateDiagrams.get(0).getModuleShortName(),
+						stateDiagram.getModuleShortName());
+			}
+			pw.printf("%s : process %s(%s,%s,%s);\n",
+					stateDiagrams.get(0).getModuleShortName(),
+					stateDiagrams.get(0).getModule(),
+					stateDiagrams.get(0).getModuleShortName(),
+					stateDiagrams.get(1).getModuleShortName(),
+					stateDiagrams.get(2).getModuleShortName());
+
 		}
 	}
 
@@ -95,9 +111,9 @@ public class NusmvTranslationTool {
 		pw.println();
 		for (String formula: formulas) {
 			String spec = formula;
-			
+
 			formula = formula.replaceAll("\\s+","");
-			
+
 			try {
 				formula = formula.substring(formula.indexOf("=")+1);
 				formula = "SPEC " + formula;
@@ -212,7 +228,7 @@ public class NusmvTranslationTool {
 				String newFormula = " AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
 				formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
 			}
-			
+
 			currentIndex = parameterIndex + parameter.length();
 		}
 
