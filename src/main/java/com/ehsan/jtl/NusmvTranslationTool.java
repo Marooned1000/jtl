@@ -99,7 +99,7 @@ public class NusmvTranslationTool {
 			formula = formula.replaceAll("\\s+","");
 			
 			try {
-				formula = formula.substring(formula.indexOf("="));
+				formula = formula.substring(formula.indexOf("=")+1);
 				formula = "SPEC " + formula;
 
 				formula = translateF1 (formula);
@@ -154,8 +154,8 @@ public class NusmvTranslationTool {
 	private String translateF2(String formula) {
 		String result = formula;
 
-		formula = formula.substring(formula.indexOf("="));
-		formula = "SPEC " + formula;
+		//formula = formula.substring(formula.indexOf("="));
+		//formula = "SPEC " + formula;
 
 		int currentIndex = 0;
 
@@ -189,8 +189,8 @@ public class NusmvTranslationTool {
 	private String translateF1(String formula) {
 		String result = formula;
 
-		formula = formula.substring(formula.indexOf("="));
-		formula = "SPEC " + formula;
+		//formula = formula.substring(formula.indexOf("="));
+		//formula = "SPEC " + formula;
 
 		int currentIndex = 0;
 
