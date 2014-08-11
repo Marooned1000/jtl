@@ -95,9 +95,12 @@ public class NusmvTranslationTool {
 		pw.println();
 		for (String formula: formulas) {
 			String spec = formula;
+			
+			formula = formula.replaceAll("\\s+","");
+			
 			try {
 				formula = formula.substring(formula.indexOf("="));
-				formula = "SPEC " + formula;
+				formula = "SPEC " + formula + " ";
 
 				formula = translateF1 (formula);
 				formula = translateF3 (formula);
