@@ -31,6 +31,6 @@ Web site: https://github.com/Marooned202/jtl
 
 For more information, you can contact at
 -------------------------------------------------------------
-E-mail: bentahar@ciise.concordia.ca, 
-faisalalsaqqar1@gmail.com, 
+E-mail: bentahar (at) ciise.concordia.ca, 
+faisalalsaqqar1 (at) gmail.com, 
 ehkasl at gmail
