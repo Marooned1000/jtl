@@ -96,7 +96,7 @@ public class NusmvTranslationTool {
 		for (String formula: formulas) {
 			String spec = formula;
 			
-			formula = formula.replaceAll("\\s+","");
+			formula = formula.replaceAll("\\s+"," ");
 			
 			try {
 				formula = formula.substring(formula.indexOf("="));
@@ -171,7 +171,7 @@ public class NusmvTranslationTool {
 			int parameterIndex = formula.indexOf("}", kIndex) + 1;
 			String parameter = formula.substring(parameterIndex).split("\\W+")[0];
 
-			String newFormula = "AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+")"
+			String newFormula = " AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+")"
 					+ "&AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+"))";
 			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
 
@@ -205,11 +205,11 @@ public class NusmvTranslationTool {
 			String parameter = "";
 			if (formula.charAt(parameterIndex) == '(') {
 				parameter = formula.substring(parameterIndex+1, formula.indexOf(")", parameterIndex));
-				String newFormula = "AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
+				String newFormula = " AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
 				formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()+1); 
 			} else {
 				parameter = formula.substring(parameterIndex).split("\\W+")[0];
-				String newFormula = "AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
+				String newFormula = " AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
 				formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()); 
 			}
 			
