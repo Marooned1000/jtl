@@ -16,10 +16,10 @@ Running JTT
  - Insert the states of the current model and press enter after each state and # to end.
  - Insert the name of the initial state of the current model.
  - For each state in the model: 
-    1- Indicate whether it has a commitment or not. If yes, insert the name of the fulfillment state. 
-    2- Insert its actions and press # to end. 
-    3- For each action, insert who is performing the action. If the current agent performs the action, press enter; otherwise, insert the name of the agent              (argument). 
-    4- Insert the target state of the current action.
+    1. Indicate whether it has a commitment or not. If yes, insert the name of the fulfillment state. 
+    2. Insert its actions and press # to end. 
+    3. For each action, insert who is performing the action. If the current agent performs the action, press enter; otherwise, insert the name of the agent              (argument). 
+    4. Insert the target state of the current action.
  - Presee # when you end inserting all the models.
  - Insert the CTLKC+ specifications. Specifications can be inserted using a text file or directly using the keyboard.
  - Finally, JTT will generate the extended NuSMV code for each model and the specifications.
