@@ -4,5 +4,3 @@ ph_3 = AG!((C_{Cus->Mer}Pay)&AG(!K_{Cus}(C_{Cus->Mer}Pay)))
 ph_4 = AG(C_{Mer->Cus}Deliver -> EF Fu(C_{Mer->Cus}Deliver))
 ph_5 = EF C_{Mer->Cus}Deliver
 ph_6 = AG!(C_{Mer->Cus}Deliver)
-ph_7 = EF C_{Mer -> Cus} Deliver
-ph_5 = EF C_{Mer->Cus}Deliver
