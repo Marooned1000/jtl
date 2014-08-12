@@ -5,3 +5,4 @@ public class Constants {
 	
 	public static final String FORMULA_INPUT_FILENAME = "formula.txt";
 }
+
