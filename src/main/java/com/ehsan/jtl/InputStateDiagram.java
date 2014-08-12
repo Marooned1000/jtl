@@ -140,3 +140,4 @@ public class InputStateDiagram {
 		return specifications;
 	}
 }
+
