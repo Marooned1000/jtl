@@ -25,7 +25,7 @@ Running JTT
  - Finally, JTT will generate the extended NuSMV code for each model and the specifications.
 
 ----------------------------------------------------------------------------------------------------------------------------
-JTT can be downloaded from
+JTT can be downloaded from:
 -----------------------------------------
 Web site: https://github.com/Marooned202/jtl
 
