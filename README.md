@@ -20,7 +20,7 @@ Running JTT
     2. Insert its actions and press # to end. 
     3. For each action, insert who is performing the action. If the current agent performs the action, press enter; otherwise, insert the name of the agent              (argument). 
     4. Insert the target state of the current action.
- - Presee # when you end inserting all the models.
+ - Press # when you end inserting all the models.
  - Insert the CTLKC+ specifications. Specifications can be inserted using a text file or directly using the keyboard.
  - Finally, JTT will generate the extended NuSMV code for each model and the specifications.
 
