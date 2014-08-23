@@ -80,7 +80,7 @@ public class NusmvTranslationTool {
 		
 		pw.printf("\n");
 		pw.printf("-----------------------------------------\n");
-		pw.printf("-- Atomic Proposition \n");
+		pw.printf("-- Atomic Propositions \n");
 		pw.printf("-----------------------------------------\n");
 		
 		for (StateDiagram stateDiagram: stateDiagrams) {
