@@ -1,8 +1,10 @@
 package com.ehsan.jtl.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,9 +19,7 @@ public class StateDiagram {
 	private Map<State, Map<Action, State>> stateDiagram = new HashMap<State, Map<Action, State>>();
 	
 	// Atomic Proposition
-	String moduleAtomicProposition;
-	String argumentAtomicProposition;
-	State stateAtomicProposition;
+	List<AtomicProposition> atomicPropositionList = new ArrayList<AtomicProposition>();		
 
 	public void addState (String stateStr) {
 		if (stateStr.trim().isEmpty()) return;
@@ -97,6 +97,14 @@ public class StateDiagram {
 		if (module.length() < 3) return module.toLowerCase();
 		return module.substring(0,3).toLowerCase();
 	}
+	
+	public void addAtomicOProposition (AtomicProposition atomicProposition) {
+
+		if (atomicProposition == null) return;
+		if (atomicPropositionList.contains(atomicProposition) == false) {
+			atomicPropositionList.add(atomicProposition);
+		}
+	}
 
 	// Getters and Setters
 	public Map<State, Map<Action, State>> getStateDiagram() {
@@ -131,29 +139,9 @@ public class StateDiagram {
 		this.initialState = initialState;
 	}
 
-	public String getModuleAtomicProposition() {
-		return moduleAtomicProposition;
-	}
-
-	public void setModuleAtomicProposition(String moduleAtomicProposition) {
-		this.moduleAtomicProposition = moduleAtomicProposition;
-	}
-
-	public String getArgumentAtomicProposition() {
-		return argumentAtomicProposition;
-	}
-
-	public void setArgumentAtomicProposition(String argumentAtomicProposition) {
-		this.argumentAtomicProposition = argumentAtomicProposition;
-	}
-
-	public State getStateAtomicProposition() {
-		return stateAtomicProposition;
-	}
-
-	public void setStateAtomicProposition(State stateAtomicProposition) {
-		this.stateAtomicProposition = stateAtomicProposition;
-	}		
+	public List<AtomicProposition> getAtomicPropositionList() {
+		return atomicPropositionList;
+	}	
 	
 }
 

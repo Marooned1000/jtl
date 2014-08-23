@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.ehsan.jtl.model.AtomicProposition;
 import com.ehsan.jtl.model.State;
 import com.ehsan.jtl.model.StateDiagram;
 import com.ehsan.jtl.util.Constants;
@@ -97,22 +98,25 @@ public class InputStateDiagram {
 			}
 
 			// Asking about Atomic Proposition
-			System.out.println("Please enter module atomic proposition (# no atomic proposition): ");
-			input = scanner.nextLine();
-			if (!input.trim().isEmpty() && !input.equals("#")) {				
-				stateDiagram.setModuleAtomicProposition(input);
-								
+			while (true) {
+				System.out.println("Please enter module atomic proposition (# to end): ");
+				input = scanner.nextLine();
+				if (input.equals("#") || input.trim().isEmpty()) break;	
+				
+				AtomicProposition atomicProposition = new AtomicProposition();
+				atomicProposition.setModuleAtomicProposition(input);
+
 				System.out.println("Please enter the argument of this atomic proposition: ");
 				input = scanner.nextLine();			
-				stateDiagram.setArgumentAtomicProposition(input);
-				
+				atomicProposition.setArgumentAtomicProposition(input);
+
 				System.out.println("Please enter the state of this aromic proposition"+stateDiagram.getStateNames()+": ");
 				input = scanner.nextLine();						
 				if (stateDiagram.getStateWithName(input) != null) {
-					stateDiagram.setStateAtomicProposition(stateDiagram.getStateWithName(input));
+					atomicProposition.setStateAtomicProposition(stateDiagram.getStateWithName(input));					
+					stateDiagram.addAtomicOProposition(atomicProposition);					
 				} else {
 					System.out.println("Error: State doesnt exist");
-					stateDiagram.setModuleAtomicProposition(null);
 				}
 			}
 

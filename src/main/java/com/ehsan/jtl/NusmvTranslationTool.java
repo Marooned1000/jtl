@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import com.ehsan.jtl.model.Action;
+import com.ehsan.jtl.model.AtomicProposition;
 import com.ehsan.jtl.model.State;
 import com.ehsan.jtl.model.StateDiagram;
 import com.ehsan.jtl.util.Constants;
@@ -83,10 +84,10 @@ public class NusmvTranslationTool {
 		pw.printf("-----------------------------------------\n");
 		
 		for (StateDiagram stateDiagram: stateDiagrams) {
-			if (stateDiagram.getModuleAtomicProposition() != null) {
-				pw.printf("DEFINE %s := %s.state = %s\n", stateDiagram.getModuleAtomicProposition(), 
-						stateDiagram.getArgumentAtomicProposition(), 
-						stateDiagram.getStateAtomicProposition().getName());
+			for (AtomicProposition atomicProposition: stateDiagram.getAtomicPropositionList()) {
+				pw.printf("DEFINE DEF_%s := %s.state = %s;\n", atomicProposition.getModuleAtomicProposition(), 
+						atomicProposition.getArgumentAtomicProposition(), 
+						atomicProposition.getStateAtomicProposition().getName());
 			}
 		}		
 		pw.printf("\n");
