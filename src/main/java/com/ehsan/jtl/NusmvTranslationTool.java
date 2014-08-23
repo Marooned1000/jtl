@@ -76,9 +76,23 @@ public class NusmvTranslationTool {
 					stateDiagrams.get(2).getModuleShortName());
 
 		}
+		
+		pw.printf("\n");
+		pw.printf("-----------------------------------------\n");
+		pw.printf("-- Atomic Proposition \n");
+		pw.printf("-----------------------------------------\n");
+		
+		for (StateDiagram stateDiagram: stateDiagrams) {
+			if (stateDiagram.getModuleAtomicProposition() != null) {
+				pw.printf("DEFINE %s := %s.state = %s\n", stateDiagram.getModuleAtomicProposition(), 
+						stateDiagram.getArgumentAtomicProposition(), 
+						stateDiagram.getStateAtomicProposition().getName());
+			}
+		}		
+		pw.printf("\n");
 	}
 
-	public void generateNusvmLang(StateDiagram stateDiagram, PrintWriter pw) {
+	public void generateNusvmLang(StateDiagram stateDiagram, PrintWriter pw) {		
 		pw.printf("-----------------------------------------\n");
 		pw.printf("-- The definition of %s Agent (%s)\n", 
 				stateDiagram.getModule(), stateDiagram.getArgument());

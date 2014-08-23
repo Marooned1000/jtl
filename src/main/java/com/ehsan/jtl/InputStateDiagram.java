@@ -70,7 +70,7 @@ public class InputStateDiagram {
 					}
 				}
 
-				
+
 				// Asking for tansitions/actions
 				while (true) {
 					System.out.printf("From state %s, enter the actions and press enter after each, press # to end\n", state.getName());
@@ -95,21 +95,44 @@ public class InputStateDiagram {
 					stateDiagram.addTransitionState(state.getName(), action, type, transition);
 				}
 			}
+
+			// Asking about Atomic Proposition
+			System.out.println("Please enter module atomic proposition (# no atomic proposition): ");
+			input = scanner.nextLine();
+			if (!input.trim().isEmpty() && !input.equals("#")) {				
+				stateDiagram.setModuleAtomicProposition(input);
+								
+				System.out.println("Please enter the argument of this atomic proposition: ");
+				input = scanner.nextLine();			
+				stateDiagram.setArgumentAtomicProposition(input);
+				
+				System.out.println("Please enter the state of this aromic proposition"+stateDiagram.getStateNames()+": ");
+				input = scanner.nextLine();						
+				if (stateDiagram.getStateWithName(input) != null) {
+					stateDiagram.setStateAtomicProposition(stateDiagram.getStateWithName(input));
+				} else {
+					System.out.println("Error: State doesnt exist");
+					stateDiagram.setModuleAtomicProposition(null);
+				}
+			}
+
+
+
 			stateDiagrams.add(stateDiagram);
 		}
 
 		//scanner.close();
 		return stateDiagrams;
 	}
-	
-	
+
+
 	public String[] getSpecifications() {
 		Scanner scanner = new Scanner(System.in);
 		String[] specifications = null;
 
 		System.out.println("Specifictions, do you want to enter specs from console or have them read them from a file (file,console)?");
 		String input = scanner.nextLine();
-		
+
 		if (input.startsWith("f") || input.startsWith("F")) {
 			System.out.println("Please enter input filename (default: "+ Constants.FORMULA_INPUT_FILENAME +")?");
 			input = scanner.nextLine();
@@ -135,7 +158,7 @@ public class InputStateDiagram {
 			}
 			specifications = specList.toArray(new String[specList.size()]);
 		}
-		
+
 		//scanner.close();
 		return specifications;
 	}

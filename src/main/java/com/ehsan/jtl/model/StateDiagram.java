@@ -15,6 +15,11 @@ public class StateDiagram {
 	
 	// Map <State, Map<Action,State>>
 	private Map<State, Map<Action, State>> stateDiagram = new HashMap<State, Map<Action, State>>();
+	
+	// Atomic Proposition
+	String moduleAtomicProposition;
+	String argumentAtomicProposition;
+	State stateAtomicProposition;
 
 	public void addState (String stateStr) {
 		if (stateStr.trim().isEmpty()) return;
@@ -125,6 +130,30 @@ public class StateDiagram {
 	public void setInitialState(State initialState) {
 		this.initialState = initialState;
 	}
+
+	public String getModuleAtomicProposition() {
+		return moduleAtomicProposition;
+	}
+
+	public void setModuleAtomicProposition(String moduleAtomicProposition) {
+		this.moduleAtomicProposition = moduleAtomicProposition;
+	}
+
+	public String getArgumentAtomicProposition() {
+		return argumentAtomicProposition;
+	}
+
+	public void setArgumentAtomicProposition(String argumentAtomicProposition) {
+		this.argumentAtomicProposition = argumentAtomicProposition;
+	}
+
+	public State getStateAtomicProposition() {
+		return stateAtomicProposition;
+	}
+
+	public void setStateAtomicProposition(State stateAtomicProposition) {
+		this.stateAtomicProposition = stateAtomicProposition;
+	}		
 	
 }
 
