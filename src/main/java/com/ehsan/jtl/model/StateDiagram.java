@@ -12,6 +12,7 @@ public class StateDiagram {
 	
 	String module;
 	String argument;
+	List<String> instances = new ArrayList<String>();
 	Set<String> actions = new HashSet<String>();
 	State initialState;
 	
@@ -26,6 +27,13 @@ public class StateDiagram {
 		State state = new State (stateStr);
 		if (stateDiagram.get(state) == null)
 			stateDiagram.put(state, null);
+	}
+	
+	public void addInstances (String instanceStr) {
+		if (instanceStr == null) return;
+		if (instanceStr.trim().isEmpty()) return;
+		if (!instances.contains(instanceStr))
+			instances.add (instanceStr);
 	}
 	
 	public void addState (State state) {
@@ -105,6 +113,16 @@ public class StateDiagram {
 			atomicPropositionList.add(atomicProposition);
 		}
 	}
+	
+	public String getAllInsancesString () {		
+		String del = "";
+		String res = "";
+		for (String instance: instances) {
+			res += del + instance;
+			del = ",";
+		}
+		return res;		
+	}
 
 	// Getters and Setters
 	public Map<State, Map<Action, State>> getStateDiagram() {
@@ -141,7 +159,12 @@ public class StateDiagram {
 
 	public List<AtomicProposition> getAtomicPropositionList() {
 		return atomicPropositionList;
-	}	
+	}
+
+	public List<String> getInstances() {
+		return instances;
+	}
+	
 	
 }
 

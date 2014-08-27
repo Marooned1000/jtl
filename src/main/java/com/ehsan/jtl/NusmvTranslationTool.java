@@ -52,14 +52,20 @@ public class NusmvTranslationTool {
 					stateDiagrams.get(0).getModule(),
 					stateDiagrams.get(0).getModuleShortName());
 		} else if (stateDiagrams.size() == 2){
-			pw.printf("%s : process %s(%s);\n",
-					stateDiagrams.get(1).getModuleShortName(),
-					stateDiagrams.get(0).getModule(),
-					stateDiagrams.get(0).getModuleShortName());
-			pw.printf("%s : process %s(%s);\n",
-					stateDiagrams.get(0).getModuleShortName(),
+			
+			for (String ins: stateDiagrams.get(0).getInstances()) {
+				pw.printf("%s : process <%s>(%s,%s);\n",
+						ins,
+						stateDiagrams.get(0).getModule(),
+						ins,
+						stateDiagrams.get(1).getInstances().get(0));
+			}					
+			pw.printf("%s : process <%s>(%s,%s);\n",
+					stateDiagrams.get(1).getInstances().get(0),
 					stateDiagrams.get(1).getModule(),
-					stateDiagrams.get(1).getModuleShortName());
+					stateDiagrams.get(1).getInstances().get(0),
+					stateDiagrams.get(0).getAllInsancesString()
+					);
 		} else if (stateDiagrams.size() > 2){
 			for (StateDiagram stateDiagram: stateDiagrams) {
 				if (stateDiagram.equals(stateDiagrams.get(0))) continue;

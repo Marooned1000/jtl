@@ -30,7 +30,14 @@ public class InputStateDiagram {
 			System.out.println("What are the arguments of this model: ");
 			String argument = scanner.nextLine();
 			stateDiagram.setArgument(argument);
-
+			
+			System.out.println("Please enter the name of each instance of this model and press enter after each name: (# to end)");
+			while (true) {				
+				String instanceStr = scanner.nextLine();
+				if (instanceStr.equals("#") || instanceStr.trim().isEmpty()) break;				
+				stateDiagram.addInstances(instanceStr);
+			}
+			
 			while (true) {
 				System.out.println("Please enter the states of the model and press enter after each state"+stateDiagram.getStateNames()+": (# to end)");
 				String stateStr = scanner.nextLine();
