@@ -3,7 +3,9 @@ package com.ehsan.jtl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.ehsan.jtl.model.Action;
 import com.ehsan.jtl.model.AtomicProposition;
@@ -90,11 +92,25 @@ public class NusmvTranslationTool {
 		pw.printf("-----------------------------------------\n");
 		
 		for (StateDiagram stateDiagram: stateDiagrams) {
+			Set<String> alreadyDone = new HashSet<String>();
 			for (AtomicProposition atomicProposition: stateDiagram.getAtomicPropositionList()) {
-				pw.printf("DEFINE DEF_%s := %s.state = %s;\n", atomicProposition.getModuleAtomicProposition(), 
+				String currentMAP = atomicProposition.getModuleAtomicProposition();
+				if (alreadyDone.contains(currentMAP)) continue;
+				
+				pw.printf("DEFINE DEF_%s := (%s.state = %s", atomicProposition.getModuleAtomicProposition(), 
 						atomicProposition.getArgumentAtomicProposition(), 
 						atomicProposition.getStateAtomicProposition().getName());
-			}
+				alreadyDone.add(currentMAP);
+				
+				for (AtomicProposition atomicProposition2: stateDiagram.getAtomicPropositionList()) {
+					if (!atomicProposition.equals(atomicProposition2) && atomicProposition2.getModuleAtomicProposition().equals(currentMAP)) {
+						pw.printf(" | %s.state = %s", atomicProposition.getModuleAtomicProposition(), 
+								atomicProposition.getArgumentAtomicProposition(), 
+								atomicProposition.getStateAtomicProposition().getName());
+					}
+				}
+				pw.printf(");\n");	
+			}							
 		}		
 		pw.printf("\n");
 	}
