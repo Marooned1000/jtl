@@ -105,8 +105,8 @@ public class NusmvTranslationTool {
 				for (AtomicProposition atomicProposition2: stateDiagram.getAtomicPropositionList()) {
 					if (!atomicProposition.equals(atomicProposition2) && atomicProposition2.getModuleAtomicProposition().equals(currentMAP)) {
 						pw.printf(" | %s.state = %s", 
-								atomicProposition.getArgumentAtomicProposition(), 
-								atomicProposition.getStateAtomicProposition().getName());
+								atomicProposition2.getArgumentAtomicProposition(), 
+								atomicProposition2.getStateAtomicProposition().getName());
 					}
 				}
 				pw.printf(");\n");	
