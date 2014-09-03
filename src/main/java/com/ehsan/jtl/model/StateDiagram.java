@@ -15,6 +15,7 @@ public class StateDiagram {
 	List<String> instances = new ArrayList<String>();
 	Set<String> actions = new HashSet<String>();
 	State initialState;
+	int order;
 	
 	// Map <State, Map<Action,State>>
 	private Map<State, Map<Action, State>> stateDiagram = new HashMap<State, Map<Action, State>>();
@@ -164,7 +165,14 @@ public class StateDiagram {
 	public List<String> getInstances() {
 		return instances;
 	}
-	
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}		
 	
 }
 

@@ -3,6 +3,7 @@ package com.ehsan.jtl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,10 +29,10 @@ public class NusmvTranslationTool {
 			for (StateDiagram stateDiagram: stateDiagrams) {
 
 				// This one to put output in file
-				generateNusvmLang(stateDiagram, pw);
+				generateNusvmLang(stateDiagram, stateDiagrams.get(0), pw);
 
 				// This one to put output in console
-				generateNusvmLang(stateDiagram, new PrintWriter(System.out, true));
+				generateNusvmLang(stateDiagram, stateDiagrams.get(0), new PrintWriter(System.out, true));
 			}
 
 			generateNusvmFormula(formulas, pw);
@@ -54,7 +55,7 @@ public class NusmvTranslationTool {
 					stateDiagrams.get(0).getModule(),
 					stateDiagrams.get(0).getModuleShortName());
 		} else if (stateDiagrams.size() == 2){
-			
+
 			for (String ins: stateDiagrams.get(0).getInstances()) {
 				pw.printf("%s : process <%s>(%s,%s);\n",
 						ins,
@@ -85,23 +86,23 @@ public class NusmvTranslationTool {
 					stateDiagrams.get(2).getModuleShortName());
 
 		}
-		
+
 		pw.printf("\n");
 		pw.printf("-----------------------------------------\n");
 		pw.printf("-- Atomic Propositions \n");
 		pw.printf("-----------------------------------------\n");
-		
+
 		for (StateDiagram stateDiagram: stateDiagrams) {
 			Set<String> alreadyDone = new HashSet<String>();
 			for (AtomicProposition atomicProposition: stateDiagram.getAtomicPropositionList()) {
 				String currentMAP = atomicProposition.getModuleAtomicProposition();
 				if (alreadyDone.contains(currentMAP)) continue;
-				
+
 				pw.printf("DEFINE DEF_%s := (%s.state = %s", atomicProposition.getModuleAtomicProposition(), 
 						atomicProposition.getArgumentAtomicProposition(), 
 						atomicProposition.getStateAtomicProposition().getName());
 				alreadyDone.add(currentMAP);
-				
+
 				for (AtomicProposition atomicProposition2: stateDiagram.getAtomicPropositionList()) {
 					if (!atomicProposition.equals(atomicProposition2) && atomicProposition2.getModuleAtomicProposition().equals(currentMAP)) {
 						pw.printf(" | %s.state = %s", 
@@ -115,12 +116,21 @@ public class NusmvTranslationTool {
 		pw.printf("\n");
 	}
 
-	public void generateNusvmLang(StateDiagram stateDiagram, PrintWriter pw) {		
+	public void generateNusvmLang(StateDiagram stateDiagram, StateDiagram firstStateDiagram, PrintWriter pw) {		
 		pw.printf("-----------------------------------------\n");
 		pw.printf("-- The definition of %s Agent (%s)\n", 
-				stateDiagram.getModule(), stateDiagram.getArgument());
+				stateDiagram.getModule(), stateDiagram.getInstances().get(0));
 		pw.printf("-----------------------------------------\n");
-		pw.printf("MODULE %s (arg1)\n", stateDiagram.getModule());
+
+		if (stateDiagram.getOrder() == 1) {
+			pw.printf("MODULE %s (arg1,arg2)\n", stateDiagram.getModule());
+		} else {
+			List<String> args = new ArrayList<String>();
+			for (int i = 0; i < firstStateDiagram.getInstances().size()+1; i++) {
+				args.add("arg" + (i+1));
+			}
+			pw.printf("MODULE %s (%s)\n", stateDiagram.getModule(), TextUtil.concatCollection(args));
+		}
 
 		pw.printf("VAR state: {%s};\n",TextUtil.concatCollection(stateDiagram.getStateNames()));
 		pw.printf("IVAR action : {%s};\n",TextUtil.concatCollection(stateDiagram.getActionListOfType(Constants.DEFAULT_AGENT_NAME)));
@@ -130,14 +140,40 @@ public class NusmvTranslationTool {
 		pw.printf("\tTRANS(next(state)= case\n");
 
 		for (State state: stateDiagram.getStateDiagram().keySet()) {
+			Set<String> actionAlreadySeen = new HashSet<String>();
 			if (stateDiagram.getStateDiagram().get(state) != null) {
 				for (Action action: stateDiagram.getStateDiagram().get(state).keySet()) {
-					String actionTypePrefix = (action.getType().equals(Constants.DEFAULT_AGENT_NAME)?"":(action.getType()+"."));
-					pw.printf("\t\t(state = %s & %saction = %s) : %s;\n", 
-							state.getName(), 
-							actionTypePrefix,
-							action.getName(), 
-							stateDiagram.getStateDiagram().get(state).get(action).getName());
+					//String actionTypePrefix = (action.getType().equals(Constants.DEFAULT_AGENT_NAME)?"":(action.getType()+"."));
+
+					if (actionAlreadySeen.contains(action.getName())) continue;
+
+					actionAlreadySeen.add(action.getName());
+					List<Action> getAllSameActions = new ArrayList<Action>();
+					for (Action action2: stateDiagram.getStateDiagram().get(state).keySet()) {
+						if (action2.getName().equals(action.getName())) {
+							getAllSameActions.add(action2);
+						}
+					}
+
+					if (getAllSameActions.size() == 1) {
+						pw.printf("\t\t(arg1.state = %s & %s.action = %s) : %s;\n", 
+								state.getName(), 
+								action.getType(),
+								action.getName(), 
+								stateDiagram.getStateDiagram().get(state).get(action).getName());
+					} else {
+						pw.printf("\t\t(arg1.state = %s & ( ", 
+								state.getName()
+								);
+						String delim = "";
+						for (Action action3: getAllSameActions) {
+							pw.printf(delim + " %s.action = %s ", 
+									action3.getType(), 
+									action3.getName());
+							delim = "|";
+						}
+						pw.printf(")) : %s;\n", stateDiagram.getStateDiagram().get(state).get(action).getName());
+					}
 				}
 			}
 		}
