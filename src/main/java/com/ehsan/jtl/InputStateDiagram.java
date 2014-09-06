@@ -111,28 +111,37 @@ public class InputStateDiagram {
 			// Asking about Atomic Proposition
 			while (true) {
 				System.out.println("Please enter module atomic proposition (# to end): ");
-				input = scanner.nextLine();
+				String moduleAtomicProposition = scanner.nextLine();
 				if (input.equals("#") || input.trim().isEmpty()) break;	
-				
-				AtomicProposition atomicProposition = new AtomicProposition();
-				atomicProposition.setModuleAtomicProposition(input);
-
-				System.out.println("Please enter the argument of this atomic proposition: ");
-				input = scanner.nextLine();			
-				atomicProposition.setArgumentAtomicProposition(input);
+							
+				System.out.println("Please enter the instances of this atomic proposition (press # to end): ");
+				List<String> tempInstances = new ArrayList<String>();
+				while (true) {				
+					String instanceStr = scanner.nextLine();
+					if (instanceStr.equals("#") || instanceStr.trim().isEmpty()) break;		
+					tempInstances.add(instanceStr);
+				}	
+				if (tempInstances.size() < 1) {
+					System.out.println("Error: You need atleast one instance");
+					break;
+				}			
 
 				System.out.println("Please enter the state of this aromic proposition"+stateDiagram.getStateNames()+": ");
 				input = scanner.nextLine();						
-				if (stateDiagram.getStateWithName(input) != null) {
-					atomicProposition.setStateAtomicProposition(stateDiagram.getStateWithName(input));					
-					stateDiagram.addAtomicOProposition(atomicProposition);					
+				if (stateDiagram.getStateWithName(input) != null) {		
+					
+					// State exists, adding the atomic proposition(s) to state diagram
+					for (String instanceStr: tempInstances) {
+						AtomicProposition atomicProposition = new AtomicProposition();
+						atomicProposition.setModuleAtomicProposition(moduleAtomicProposition);
+						atomicProposition.setArgumentAtomicProposition(instanceStr);
+						atomicProposition.setStateAtomicProposition(stateDiagram.getStateWithName(input));
+						stateDiagram.addAtomicOProposition(atomicProposition);
+					}																											
 				} else {
 					System.out.println("Error: State doesnt exist");
 				}
 			}
-
-
-
 			stateDiagrams.add(stateDiagram);
 		}
 
