@@ -89,7 +89,7 @@ public class InputStateDiagram {
 					String action = scanner.nextLine();
 					if (action.equals("#") || action.trim().isEmpty()) break;
 
-					System.out.printf("For state %s, Action %s, who is performing this action (if the current agent performs the action, enter arg1; otherwise, insert the name of the agent (arg_2,...,arg_n)): \n", 
+					System.out.printf("For state %s, Action %s, who is performing this action (if the current agent performs the action, enter arg1; otherwise, insert the name of the agent (arg2,...,argn), # to end): \n", 
 							state.getName(), action);//, Constants.DEFAULT_AGENT_NAME);
 					
 					
