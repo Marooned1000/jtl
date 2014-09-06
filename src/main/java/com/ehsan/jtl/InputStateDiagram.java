@@ -91,8 +91,19 @@ public class InputStateDiagram {
 
 					System.out.printf("For state %s, Action %s, who is performing this action (if the current agent performs the action, enter arg1; otherwise, insert the name of the agent (arg_2,...,arg_n)): \n", 
 							state.getName(), action);//, Constants.DEFAULT_AGENT_NAME);
-					String type = scanner.nextLine();
-					if (type.trim().isEmpty()) type = Constants.DEFAULT_AGENT_NAME;
+					
+					
+					List<String> tempTypes = new ArrayList<String>();
+					while (true) {				
+						String typeStr = scanner.nextLine();
+						if (typeStr.equals("#") || typeStr.trim().isEmpty()) break;		
+						tempTypes.add(typeStr);
+						if (typeStr.equals(Constants.DEFAULT_AGENT_NAME)) break;
+					}					
+					if (tempTypes.size() < 1) {
+						tempTypes.add(Constants.DEFAULT_AGENT_NAME);
+						System.out.println("Setting performer to: " + Constants.DEFAULT_AGENT_NAME);
+					}
 
 					System.out.printf("From state %s with Action %s, enter the target state%s: \n", 
 							state.getName(), action, stateDiagram.getStateNames());
@@ -104,7 +115,10 @@ public class InputStateDiagram {
 						System.out.println("Error: State " + transition + " doesn't exist");
 						continue;
 					}
-					stateDiagram.addTransitionState(state.getName(), action, type, transition);
+					
+					for (String type: tempTypes) {
+						stateDiagram.addTransitionState(state.getName(), action, type, transition);
+					}
 				}
 			}
 
