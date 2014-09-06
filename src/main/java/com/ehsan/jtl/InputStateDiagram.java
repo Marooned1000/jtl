@@ -140,7 +140,7 @@ public class InputStateDiagram {
 					break;
 				}			
 
-				System.out.println("Please enter the state of this aromic proposition"+stateDiagram.getStateNames()+": ");
+				System.out.println("Please enter the state of this atomic proposition"+stateDiagram.getStateNames()+": ");
 				input = scanner.nextLine();						
 				if (stateDiagram.getStateWithName(input) != null) {		
 					
