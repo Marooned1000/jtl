@@ -112,7 +112,7 @@ public class InputStateDiagram {
 			while (true) {
 				System.out.println("Please enter module atomic proposition (# to end): ");
 				String moduleAtomicProposition = scanner.nextLine();
-				if (input.equals("#") || input.trim().isEmpty()) break;	
+				if (moduleAtomicProposition.equals("#") || moduleAtomicProposition.trim().isEmpty()) break;	
 							
 				System.out.println("Please enter the instances of this atomic proposition (press # to end): ");
 				List<String> tempInstances = new ArrayList<String>();
