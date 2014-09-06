@@ -62,13 +62,15 @@ public class NusmvTranslationTool {
 						stateDiagrams.get(0).getModule(),
 						ins,
 						stateDiagrams.get(1).getInstances().get(0));
-			}					
+			}		
+			for (String ins: stateDiagrams.get(1).getInstances()) {
 			pw.printf("%s : process <%s>(%s,%s);\n",
-					stateDiagrams.get(1).getInstances().get(0),
+					ins,
 					stateDiagrams.get(1).getModule(),
-					stateDiagrams.get(1).getInstances().get(0),
+					ins,
 					stateDiagrams.get(0).getAllInsancesString()
 					);
+			}
 		} else if (stateDiagrams.size() > 2){
 			for (StateDiagram stateDiagram: stateDiagrams) {
 				if (stateDiagram.equals(stateDiagrams.get(0))) continue;
@@ -119,7 +121,7 @@ public class NusmvTranslationTool {
 	public void generateNusvmLang(StateDiagram stateDiagram, StateDiagram firstStateDiagram, PrintWriter pw) {		
 		pw.printf("-----------------------------------------\n");
 		pw.printf("-- The definition of %s Agent (%s)\n", 
-				stateDiagram.getModule(), stateDiagram.getInstances().get(0));
+				stateDiagram.getModule(), stateDiagram.getAllInsancesString());
 		pw.printf("-----------------------------------------\n");
 
 		if (stateDiagram.getOrder() == 1) {
