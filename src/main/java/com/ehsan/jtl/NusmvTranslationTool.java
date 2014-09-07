@@ -35,8 +35,8 @@ public class NusmvTranslationTool {
 				generateNusvmLang(stateDiagram, stateDiagrams.get(0), new PrintWriter(System.out, true));
 			}
 
-			generateNusvmFormula(formulas, pw);
-			generateNusvmFormula(formulas, new PrintWriter(System.out, true));
+			generateNusvmFormula(stateDiagrams, formulas, pw);
+			generateNusvmFormula(stateDiagrams, formulas, new PrintWriter(System.out, true));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -46,8 +46,8 @@ public class NusmvTranslationTool {
 	}
 
 	private void generateHeader(List<StateDiagram> stateDiagrams, PrintWriter pw) {
-		pw.println("Module main");
-		pw.println("Var");
+		pw.println("MODULE main");
+		pw.println("VAR");
 
 		if (stateDiagrams.size() == 1) {
 			pw.printf("%s : process %s(%s);\n",
@@ -57,7 +57,7 @@ public class NusmvTranslationTool {
 		} else if (stateDiagrams.size() == 2){
 			for (String ins: stateDiagrams.get(0).getInstances()) {
 				for (String ins1: stateDiagrams.get(1).getInstances()) {
-					pw.printf("%s : process <%s>(%s,%s);\n",
+					pw.printf("%s : process %s(%s,%s);\n",
 							ins,
 							stateDiagrams.get(0).getModule(),
 							ins,
@@ -65,7 +65,7 @@ public class NusmvTranslationTool {
 				}
 			}		
 			for (String ins: stateDiagrams.get(1).getInstances()) {
-				pw.printf("%s : process <%s>(%s,%s);\n",
+				pw.printf("%s : process %s(%s,%s);\n",
 						ins,
 						stateDiagrams.get(1).getModule(),
 						ins,
@@ -88,14 +88,14 @@ public class NusmvTranslationTool {
 			//					stateDiagrams.get(1).getModuleShortName(),
 			//					stateDiagrams.get(2).getModuleShortName());			
 			for (String ins: stateDiagrams.get(0).getInstances()) {
-				pw.printf("%s : process <%s>(%s,%s);\n",
+				pw.printf("%s : process %s(%s,%s);\n",
 						ins,
 						stateDiagrams.get(0).getModule(),
 						ins,
 						stateDiagrams.get(1).getInstances().get(0));
 			}		
 			for (String ins: stateDiagrams.get(1).getInstances()) {
-				pw.printf("%s : process <%s>(%s,%s);\n",
+				pw.printf("%s : process %s(%s,%s);\n",
 						ins,
 						stateDiagrams.get(1).getModule(),
 						ins,
@@ -197,7 +197,7 @@ public class NusmvTranslationTool {
 		pw.printf("\tesac)\n");
 	}
 
-	public void generateNusvmFormula(String[] formulas, PrintWriter pw) {
+	public void generateNusvmFormula(List<StateDiagram> stateDiagrams, String[] formulas, PrintWriter pw) {
 		pw.println();
 		for (String formula: formulas) {
 			String spec = formula;
@@ -211,6 +211,8 @@ public class NusmvTranslationTool {
 				formula = translateF1 (formula);
 				formula = translateF3 (formula);
 				formula = translateF2 (formula);
+				
+				formula = finalFix (formula, stateDiagrams);
 
 			} catch (Exception e) {
 				System.out.println("Specification line " + spec + " has syntax error");
@@ -218,6 +220,27 @@ public class NusmvTranslationTool {
 			}
 			pw.println(formula);
 		}
+	}
+
+	private String finalFix(String formula, List<StateDiagram> stateDiagrams) {
+		String res = formula;
+		
+		// Adding semicolon
+		if (!res.trim().endsWith(";")) res = res + ";";
+		
+		//Capital DEF
+		res = res.replaceAll("Def_", "DEF_");
+		res = res.replaceAll("def_", "DEF_");
+		
+		
+		for (StateDiagram stateDiagram: stateDiagrams) {
+			res = res.replaceAll(stateDiagram.getModule(), stateDiagram.getInstances().get(0));
+			if (stateDiagram.getModule().length() >= 3)
+				res = res.replaceAll(stateDiagram.getModule().substring(0,3), stateDiagram.getInstances().get(0));
+		}
+		
+		
+		return res;
 	}
 
 	private String translateF3(String formula) {

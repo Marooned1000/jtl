@@ -1,6 +1,6 @@
-ph_1 = AG!(Fu(C_{Cus->Mer}Def_Pay)&AG(!K_{Mer}Def_Pay))
-ph_2 = AG!(Fu(C_{Cus->Mer}Def_Pay)&AG(!K_{Cus}Def_Pay))
-ph_3 = AG!((C_{Cus->Mer}Def_Pay)&AG(!K_{Cus}(C_{Cus->Mer}Def_Pay)))
+ph_1 = AG!(Fu(C_{Cus->Mer}DEF_Pay)&AG(!K_{Mer}DEF_Pay))
+ph_2 = AG!(Fu(C_{Cus->Mer}DEF_Pay)&AG(!K_{Cus}DEF_Pay))
+ph_3 = AG!((C_{Cus->Mer}DEF_Pay)&AG(!K_{Cus}(C_{Cus->Mer}DEF_Pay)))
 ph_4 = AG(C_{Mer->Cus}Def_Deliver -> EF Fu(C_{Mer->Cus}Def_Deliver))
 ph_5 = EF C_{Mer->Cus}Def_Deliver
-ph_6 = AG!(C_{Mer->Cus}Def_Deliver)
+ph_6 = AG!(C_{Merchant->Customer}Def_Deliver)
