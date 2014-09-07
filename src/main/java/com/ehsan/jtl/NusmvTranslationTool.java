@@ -25,6 +25,9 @@ public class NusmvTranslationTool {
 			// generate header
 			generateHeader (stateDiagrams, pw);
 			generateHeader (stateDiagrams, new PrintWriter(System.out, true));
+			
+			generateNusvmFormula(stateDiagrams, formulas, pw);
+			generateNusvmFormula(stateDiagrams, formulas, new PrintWriter(System.out, true));
 
 			for (StateDiagram stateDiagram: stateDiagrams) {
 
@@ -34,9 +37,6 @@ public class NusmvTranslationTool {
 				// This one to put output in console
 				generateNusvmLang(stateDiagram, stateDiagrams.get(0), new PrintWriter(System.out, true));
 			}
-
-			generateNusvmFormula(stateDiagrams, formulas, pw);
-			generateNusvmFormula(stateDiagrams, formulas, new PrintWriter(System.out, true));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -262,8 +262,8 @@ public class NusmvTranslationTool {
 			String parameter = formula.substring(parameterIndex, formula.indexOf(")", parameterIndex));
 
 			String newFormula = "(EAX("+iSubscript+".action = Gamma_"+iSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&" +
-					"AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+"))||EAX("+iSubscript+".action = Beta_"+iSubscript+")(EAX("+iSubscript+".action = Gamma_"+iSubscript+")" +
-					"(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+"))))||" +
+					"AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+"))|EAX("+iSubscript+".action = Beta_"+iSubscript+")(EAX("+iSubscript+".action = Gamma_"+iSubscript+")" +
+					"(AAX("+iSubscript+".action = Alpha_"+iSubscript+")(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+"))))|" +
 					"EAX("+jSubscript+".action = Beta_"+jSubscript+")(EAX("+iSubscript+".action = Gamma_"+iSubscript+")(AAX("+iSubscript+".action = Alpha_"+iSubscript+")" +
 					"(AAX("+iSubscript+".action = Beta_"+iSubscript+")("+parameter+")&AAX("+jSubscript+".action = Beta_"+jSubscript+")("+parameter+")))))";
 
