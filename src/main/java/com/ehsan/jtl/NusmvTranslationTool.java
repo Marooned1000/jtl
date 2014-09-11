@@ -335,7 +335,7 @@ public class NusmvTranslationTool {
 			if (formula.charAt(parameterIndex) == '(') {
 				parameter = formula.substring(parameterIndex+1, formula.indexOf(")", parameterIndex));
 				String newFormula = " AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
-				formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()+1); 
+				formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex + parameter.length()+2); 
 			} else {
 				parameter = formula.substring(parameterIndex).split("\\W+")[0];
 				String newFormula = " AAX("+kSubscript+".action = Beta_"+kSubscript+")(" + parameter + ")";
