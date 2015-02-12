@@ -28,20 +28,20 @@ public class InputStateDiagram {
 
 			order++;
 			stateDiagram.setOrder(order);
-			
+
 			stateDiagram.setModule(module);
 
-//			System.out.println("What are the arguments of this model: ");
-//			String argument = scanner.nextLine();
-//			stateDiagram.setArgument(argument);
-			
+			//			System.out.println("What are the arguments of this model: ");
+			//			String argument = scanner.nextLine();
+			//			stateDiagram.setArgument(argument);
+
 			System.out.println("Please enter the name of each instance of this model and press enter after each name: (# to end)");
 			while (true) {				
 				String instanceStr = scanner.nextLine();
 				if (instanceStr.equals("#") || instanceStr.trim().isEmpty()) break;				
 				stateDiagram.addInstances(instanceStr);
 			}
-			
+
 			while (true) {
 				System.out.println("Please enter the states of the model and press enter after each state"+stateDiagram.getStateNames()+": (# to end)");
 				String stateStr = scanner.nextLine();
@@ -91,8 +91,8 @@ public class InputStateDiagram {
 
 					System.out.printf("For state %s, Action %s, who is performing this action (if the current agent performs the action, enter arg1; otherwise, insert the name of the agent (arg2,...,argn), # to end): \n", 
 							state.getName(), action);//, Constants.DEFAULT_AGENT_NAME);
-					
-					
+
+
 					List<String> tempTypes = new ArrayList<String>();
 					while (true) {				
 						String typeStr = scanner.nextLine();
@@ -115,7 +115,7 @@ public class InputStateDiagram {
 						System.out.println("Error: State " + transition + " doesn't exist");
 						continue;
 					}
-					
+
 					for (String type: tempTypes) {
 						stateDiagram.addTransitionState(state.getName(), action, type, transition);
 					}
@@ -127,7 +127,7 @@ public class InputStateDiagram {
 				System.out.println("Please enter module atomic proposition (# to end): ");
 				String moduleAtomicProposition = scanner.nextLine();
 				if (moduleAtomicProposition.equals("#") || moduleAtomicProposition.trim().isEmpty()) break;	
-							
+
 				System.out.println("Please enter the instances of this atomic proposition (press # to end): ");
 				List<String> tempInstances = new ArrayList<String>();
 				while (true) {				
@@ -143,7 +143,7 @@ public class InputStateDiagram {
 				System.out.println("Please enter the state of this atomic proposition"+stateDiagram.getStateNames()+": ");
 				input = scanner.nextLine();						
 				if (stateDiagram.getStateWithName(input) != null) {		
-					
+
 					// State exists, adding the atomic proposition(s) to state diagram
 					for (String instanceStr: tempInstances) {
 						AtomicProposition atomicProposition = new AtomicProposition();
@@ -199,6 +199,51 @@ public class InputStateDiagram {
 
 		//scanner.close();
 		return specifications;
+	}
+	
+	public String[] generateFormulas() {
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.println("Fully or Purely(Purely default): ");
+		String inputI = scanner.nextLine();
+		if (inputI.startsWith("f") || inputI.startsWith("F"))
+			return generateFormulasPurely();
+		else 
+			return generateFormulasFully();
+	}
+
+	public String[] generateFormulasFully() {
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.println("Enter i: ");
+		String inputI = scanner.nextLine();
+		int numI = Integer.parseInt(inputI);
+
+		System.out.println("Enter j: ");
+		String inputJ = scanner.nextLine();
+		int numJ = Integer.parseInt(inputJ);
+
+		String[] formulas = new String[(numI)*(numJ)];
+		for (int i = 0; i < numI; i++) {
+			for (int j = 0; j < numJ; j++) {
+				formulas[(numI*j)+i] = String.format("CC(sel%d,j,aPrice%d,dGoods)", i+1, j+1);
+			}
+		}		
+		return formulas;
+	}
+
+	public String[] generateFormulasPurely() {
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.println("Enter i: ");
+		String inputI = scanner.nextLine();
+		int numI = Integer.parseInt(inputI);
+
+		String[] formulas = new String[(numI)];
+		for (int i = 0; i < numI; i++) {
+			formulas[i] = String.format("CC(sel%d,j,aPrice%d,dGoods)", i+1, i+1);
+		}		
+		return formulas;
 	}
 }
 
