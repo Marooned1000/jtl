@@ -24,10 +24,7 @@ public class NusmvTranslationTool {
 
 			// generate header
 			generateHeader (stateDiagrams, pw);
-			generateHeader (stateDiagrams, new PrintWriter(System.out, true));
-			
-			generateNusvmFormula(stateDiagrams, formulas, pw);
-			generateNusvmFormula(stateDiagrams, formulas, new PrintWriter(System.out, true));
+			generateHeader (stateDiagrams, new PrintWriter(System.out, true));					
 
 			for (StateDiagram stateDiagram: stateDiagrams) {
 
@@ -38,6 +35,9 @@ public class NusmvTranslationTool {
 				generateNusvmLang(stateDiagram, stateDiagrams.get(0), new PrintWriter(System.out, true));
 			}
 
+			generateNusvmFormula(stateDiagrams, formulas, pw);
+			generateNusvmFormula(stateDiagrams, formulas, new PrintWriter(System.out, true));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -55,23 +55,38 @@ public class NusmvTranslationTool {
 					stateDiagrams.get(0).getModule(),
 					stateDiagrams.get(0).getModuleShortName());
 		} else if (stateDiagrams.size() == 2){
-			for (String ins: stateDiagrams.get(0).getInstances()) {
-				for (String ins1: stateDiagrams.get(1).getInstances()) {
-					pw.printf("%s : process %s(%s,%s);\n",
-							ins,
-							stateDiagrams.get(0).getModule(),
-							ins,
-							ins1);
-				}
-			}		
-			for (String ins: stateDiagrams.get(1).getInstances()) {
-				pw.printf("%s : process %s(%s,%s);\n",
+//			for (String ins: stateDiagrams.get(0).getInstances()) {
+//				for (String ins1: stateDiagrams.get(1).getInstances()) {
+//					pw.printf("%s : process %s(%s,%s);\n",
+//							ins,
+//							stateDiagrams.get(0).getModule(),
+//							ins,
+//							ins1);
+//				}
+//			}		
+//			for (String ins: stateDiagrams.get(1).getInstances()) {
+//				pw.printf("%s : process %s(%s,%s);\n",
+//						ins,
+//						stateDiagrams.get(1).getModule(),
+//						ins,
+//						stateDiagrams.get(0).getAllInsancesString()
+//						);
+//			}
+			int i = 0;
+			for (String ins: stateDiagrams.get(0).getInstances()) {				
+				pw.printf("%s : %s(%s);\n",
+						ins,
+						stateDiagrams.get(0).getModule(),
+						stateDiagrams.get(1).getInstances().get(i++));
+			}	
+			i = 0;
+			for (String ins: stateDiagrams.get(1).getInstances()) {				
+				pw.printf("%s : %s(%s);\n",
 						ins,
 						stateDiagrams.get(1).getModule(),
-						ins,
-						stateDiagrams.get(0).getAllInsancesString()
-						);
+						stateDiagrams.get(0).getInstances().get(i++));
 			}
+
 		} else if (stateDiagrams.size() > 2){
 			//			for (StateDiagram stateDiagram: stateDiagrams) {
 			//				if (stateDiagram.equals(stateDiagrams.get(0))) continue;
@@ -173,7 +188,7 @@ public class NusmvTranslationTool {
 					}
 
 					if (getAllSameActions.size() == 1) {
-						pw.printf("\t\t(arg1.state = %s & %s.action = %s) : %s;\n", 
+						pw.printf("\t\t(state = %s & %s.action = %s) : %s;\n", 
 								state.getName(), 
 								action.getType(),
 								action.getName(), 
@@ -208,9 +223,10 @@ public class NusmvTranslationTool {
 				formula = formula.substring(formula.indexOf("=")+1);
 				formula = "SPEC " + formula;
 
-				formula = translateF1 (formula);
-				formula = translateF3 (formula);
-				formula = translateF2 (formula);
+				//formula = translateF1 (formula);
+				//formula = translateF3 (formula);
+				//formula = translateF2 (formula);
+				
 				
 				formula = finalFix (formula, stateDiagrams);
 
