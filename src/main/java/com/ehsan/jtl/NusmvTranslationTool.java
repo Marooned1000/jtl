@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import com.ehsan.jtl.model.Action;
@@ -17,7 +18,7 @@ import com.ehsan.jtl.util.TextUtil;
 
 public class NusmvTranslationTool {
 
-	public void generateNusvmLang (List<StateDiagram> stateDiagrams, String[] formulas, String filename, String formulaInputFileName) {
+	public void generateNusvmLang (List<StateDiagram> stateDiagrams, String[] formulas, String filename, String formulaInputFileName, String input) {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(new File(filename));
@@ -35,9 +36,9 @@ public class NusmvTranslationTool {
 				generateNusvmLang(stateDiagram, stateDiagrams.get(0), new PrintWriter(System.out, true));
 			}
 
-			generateNusvmFormula(stateDiagrams, formulas, pw);
-			generateNusvmFormula(stateDiagrams, formulas, new PrintWriter(System.out, true));
-			
+			generateNusvmFormula(stateDiagrams, formulas, pw, input);
+			generateNusvmFormula(stateDiagrams, formulas, new PrintWriter(System.out, true), input);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -50,28 +51,28 @@ public class NusmvTranslationTool {
 		pw.println("VAR");
 
 		if (stateDiagrams.size() == 1) {
-			pw.printf("%s : process %s(%s);\n",
+			pw.printf("%s : %s(%s);\n",
 					stateDiagrams.get(0).getModuleShortName(),
 					stateDiagrams.get(0).getModule(),
 					stateDiagrams.get(0).getModuleShortName());
 		} else if (stateDiagrams.size() == 2){
-//			for (String ins: stateDiagrams.get(0).getInstances()) {
-//				for (String ins1: stateDiagrams.get(1).getInstances()) {
-//					pw.printf("%s : process %s(%s,%s);\n",
-//							ins,
-//							stateDiagrams.get(0).getModule(),
-//							ins,
-//							ins1);
-//				}
-//			}		
-//			for (String ins: stateDiagrams.get(1).getInstances()) {
-//				pw.printf("%s : process %s(%s,%s);\n",
-//						ins,
-//						stateDiagrams.get(1).getModule(),
-//						ins,
-//						stateDiagrams.get(0).getAllInsancesString()
-//						);
-//			}
+			//			for (String ins: stateDiagrams.get(0).getInstances()) {
+			//				for (String ins1: stateDiagrams.get(1).getInstances()) {
+			//					pw.printf("%s : process %s(%s,%s);\n",
+			//							ins,
+			//							stateDiagrams.get(0).getModule(),
+			//							ins,
+			//							ins1);
+			//				}
+			//			}		
+			//			for (String ins: stateDiagrams.get(1).getInstances()) {
+			//				pw.printf("%s : process %s(%s,%s);\n",
+			//						ins,
+			//						stateDiagrams.get(1).getModule(),
+			//						ins,
+			//						stateDiagrams.get(0).getAllInsancesString()
+			//						);
+			//			}
 			int i = 0;
 			for (String ins: stateDiagrams.get(0).getInstances()) {				
 				pw.printf("%s : %s(%s);\n",
@@ -212,12 +213,12 @@ public class NusmvTranslationTool {
 		pw.printf("\tesac)\n");
 	}
 
-	public void generateNusvmFormula(List<StateDiagram> stateDiagrams, String[] formulas, PrintWriter pw) {
+	public void generateNusvmFormula(List<StateDiagram> stateDiagrams, String[] formulas, PrintWriter pw, String input) {
 		pw.println();
 		for (String formula: formulas) {
 			String spec = formula;
 
-			formula = formula.replaceAll("\\s+","");
+			formula = formula.replaceAll("\\s+"," ");
 
 			try {
 				formula = formula.substring(formula.indexOf("=")+1);
@@ -226,8 +227,8 @@ public class NusmvTranslationTool {
 				//formula = translateF1 (formula);
 				//formula = translateF3 (formula);
 				//formula = translateF2 (formula);
-				
-				
+				formula = translateF4 (formula, stateDiagrams, input);
+
 				formula = finalFix (formula, stateDiagrams);
 
 			} catch (Exception e) {
@@ -240,23 +241,89 @@ public class NusmvTranslationTool {
 
 	private String finalFix(String formula, List<StateDiagram> stateDiagrams) {
 		String res = formula;
-		
+
 		// Adding semicolon
 		if (!res.trim().endsWith(";")) res = res + ";";
-		
+
 		//Capital DEF
 		res = res.replaceAll("Def_", "DEF_");
 		res = res.replaceAll("def_", "DEF_");
-		
-		
+
+
 		for (StateDiagram stateDiagram: stateDiagrams) {
 			res = res.replaceAll(stateDiagram.getModule(), stateDiagram.getInstances().get(0));
 			if (stateDiagram.getModule().length() >= 3)
 				res = res.replaceAll(stateDiagram.getModule().substring(0,3), stateDiagram.getInstances().get(0));
 		}
-		
-		
+
+
 		return res;
+	}
+
+	private String translateF4(String formula, List<StateDiagram> stateDiagrams, String input) {
+		String result = formula;
+
+		//formula = formula.substring(formula.indexOf("="));
+		//formula = "SPEC " + formula;	
+
+		int currentIndex = 0;
+
+		while (true) {
+			int kIndex = formula.indexOf("CC(", currentIndex);
+			if (kIndex < 0) break;
+
+			String allParams = formula.substring(formula.indexOf("(", kIndex)+1,
+					formula.indexOf(")", kIndex));
+
+			String param1 = allParams.split(",")[0].trim();
+			String param2 = allParams.split(",")[1].trim();
+			String param3 = allParams.split(",")[2].trim();
+			String param4 = allParams.split(",")[3].trim();
+
+			StateDiagram agent1 = stateDiagrams.stream().filter(c->c.getModule().equalsIgnoreCase(param1)).findAny().get();
+			StateDiagram agent2 = stateDiagrams.stream().filter(c->c.getModule().equalsIgnoreCase(param2)).findAny().get();
+
+
+			int parameterIndex = formula.indexOf(")", kIndex) + 1;
+			//String parameter = formula.substring(parameterIndex).split("\\W+")[0];
+
+			String newFormula = "";
+			if (input.startsWith("f")) {			
+				int i = 0;
+				for (String ins: agent1.getInstances()) {	
+					i++;
+					int j = 0;
+					for (String ins2: agent2.getInstances()) {
+						j++;
+						newFormula += " EAX("+ins+".action=Alpha_s_b)("+param3+j+") & "
+								+ "AAX("+ins+".action=Alpha_s_b)("+param3+j+" -> "+param4+j+")))";
+						if ((agent1.getInstances().indexOf(ins) != agent1.getInstances().size()-1)
+								|| (agent2.getInstances().indexOf(ins2) != agent2.getInstances().size()-1)) newFormula += "\n & \n";
+						//else newFormula += ";\n";
+					}
+				}			
+			} else {			
+				int i = 0;
+				for (String ins: agent1.getInstances()) {			
+					i++;
+					newFormula += " EAX("+ins+".action=Alpha_s_b)("+param3+i+") & "
+							+ "AAX("+ins+".action=Alpha_s_b)("+param3+i+" -> "+param4+i+")))";
+					if (agent1.getInstances().indexOf(ins) != agent1.getInstances().size()-1) newFormula += "\n & \n";
+					//else newFormula += ";\n";
+				}				
+			}
+
+
+			formula = formula.substring(0, kIndex) + newFormula + formula.substring(parameterIndex); 
+
+			//			System.out.println("Formula: " + formula);
+
+			currentIndex = parameterIndex;
+		}
+
+		result = formula;
+
+		return result;
 	}
 
 	private String translateF3(String formula) {

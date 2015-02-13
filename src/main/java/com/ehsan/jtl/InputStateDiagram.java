@@ -12,10 +12,8 @@ import com.ehsan.jtl.util.Constants;
 import com.ehsan.jtl.util.FileUtil;
 
 public class InputStateDiagram {
-	public List<StateDiagram> getStateDiagrams() {
-		List<StateDiagram> stateDiagrams = new ArrayList<StateDiagram>();
-		@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(System.in);
+	public List<StateDiagram> getStateDiagrams(Scanner scanner) {
+		List<StateDiagram> stateDiagrams = new ArrayList<StateDiagram>();		
 		int order = 0;
 
 		while (true) {
